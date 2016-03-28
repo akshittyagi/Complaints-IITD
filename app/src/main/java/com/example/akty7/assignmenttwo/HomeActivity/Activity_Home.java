@@ -16,8 +16,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.akty7.assignmenttwo.Activity_Login;
 import com.example.akty7.assignmenttwo.JSONParser;
@@ -44,7 +46,6 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_home);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("KARAN");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_home);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -56,17 +57,15 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
 
         viewPager = (ViewPager) findViewById(R.id.viewpager_home);
         setupViewPager(viewPager);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs_home);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new BlankFragment(), "MY COMPLAINTS");
-        adapter.addFragment(new BlankFragment(), "HOSTEL");
-        adapter.addFragment(new BlankFragment(), "INSTITUTE");
+        adapter.addFragment(new BlankFragment(), "MY ACTIVITY");
+        adapter.addFragment(new BlankFragment(), "HOSTEL LEVEL");
+        adapter.addFragment(new BlankFragment(), "INSTITUTE LEVEL");
         viewPager.setAdapter(adapter);
     }
 
@@ -81,7 +80,9 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
 
         @Override
         public Fragment getItem(int position) {
+
             return mFragmentList.get(position);
+
         }
 
         @Override
@@ -91,6 +92,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
 
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
+
             mFragmentTitleList.add(title);
         }
 

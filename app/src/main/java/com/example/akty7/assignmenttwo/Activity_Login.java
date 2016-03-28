@@ -42,9 +42,10 @@ public class Activity_Login extends AppCompatActivity {
                 if(loginSuccess){
                     Intent intent = new Intent(context,Activity_Home.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("userid",username);
+                    bundle.putString("userid", username);
                     intent.putExtras(bundle);
                     startActivity(intent);
+                    Activity_Login.this.finish();
                 }
                 else {
                     ((EditText) findViewById(R.id.userid)).setText("");
