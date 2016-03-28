@@ -42,11 +42,13 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
 
         final Complaint comp = mDataset.get(position);
 
-        holder.creator.setText(jp.getUser(comp.filedByUserId).name);
+      //  holder.creator.setText(jp.getUser(comp.filedByUserId).name);
+        holder.creator.setText(comp.filedByUserId);
         if(comp.complaintstatus.equals("true")) holder.status.setImageResource(R.drawable.tick);
         else holder.status.setImageResource(R.drawable.cross);
         holder.date.setText(comp.createdat);
-        holder.vote.setHint("[" + comp.upvotes + "/" + comp.downvotes + "]");
+        holder.title.setText(comp.title);
+        holder.vote.setText("[" + comp.upvotes + "/" + comp.downvotes + "]");
         holder.v.setOnClickListener(new View.OnClickListener() {
 
             @Override

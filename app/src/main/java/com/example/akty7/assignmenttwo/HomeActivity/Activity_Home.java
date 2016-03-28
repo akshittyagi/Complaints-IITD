@@ -64,8 +64,8 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new Fragment_MyActivity(), "MY ACTIVITY");
-        adapter.addFragment(new Fragment_MyActivity(), "HOSTEL LEVEL");
-        adapter.addFragment(new Fragment_MyActivity(), "INSTITUTE LEVEL");
+        adapter.addFragment(new Fragment_HostelLevel(), "HOSTEL LEVEL");
+        adapter.addFragment(new Fragment_InstiLevel(), "INSTITUTE LEVEL");
         viewPager.setAdapter(adapter);
     }
 

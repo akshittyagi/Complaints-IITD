@@ -15,14 +15,14 @@ import com.example.akty7.assignmenttwo.R;
 
 import java.util.ArrayList;
 
-public class Fragment_MyActivity extends Fragment {
+public class Fragment_InstiLevel extends Fragment {
 
     JSONParser myac_jp;
     RecyclerView mRecyclerView;
     LinearLayoutManager mLayoutManager;
     ComplaintRecyclerViewAdapter mAdapter;
 
-    public Fragment_MyActivity() {
+    public Fragment_InstiLevel() {
         // Required empty public constructor
         myac_jp = new JSONParser(getContext());
     }
@@ -41,10 +41,10 @@ public class Fragment_MyActivity extends Fragment {
         c1.compId = "42";
         c1.complaintcategory="0";
         c1.complaintlevel="0";
-        c1.createdat="arreeee";
-        c1.filedByUserId="0222";
+        c1.createdat="midnight";
+        c1.filedByUserId="your mama";
         c1.description="dessss";
-        c1.title="This is a fucking complaint... THe problem is motherfucking tyagi";
+        c1.title="This is a fucking insti level complaint";
         usercomps.add(0,c1);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.myactivity_recycler_view);
         mRecyclerView.setHasFixedSize(true);
