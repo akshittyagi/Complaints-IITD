@@ -17,9 +17,11 @@ import com.example.akty7.assignmenttwo.HelperClass.Comment;
 import com.example.akty7.assignmenttwo.HelperClass.Complaint;
 import com.example.akty7.assignmenttwo.HelperClass.UserIn;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -31,23 +33,30 @@ public class JSONParser {
     ArrayList<Comment> retComments;
     ArrayList<Complaint> retComplaints;
     ArrayList<UserIn> retUsers;
-    public String main;
-    public String login;
-    public String logout;
-    public String passReset;
-    public String newComplaint;
-    public String allComplaints;
-    public String hostelComplaints;
-    public String instituteComplaints;
-    public String individualComplaints;
-    public String specificComplaint;
-    public String allComments;
-    public String addComment;
-    public String upvote;
-    public String downvote;
-    public String addUser;
+    String main;
+    String login;
+    String logout;
+    String passReset;
+    String newComplaint;
+    String allComplaints;
+    String hostelComplaints;
+    String instituteComplaints;
+    String individualComplaints;
+    String specificComplaint;
+    String allComments;
+    String addComment;
+    String upvote;
+    String downvote;
+    String addUser;
+    Context ctx;
 
-    public ArrayList<AuthChecker> login(String username,String password,Context ctx)
+    public JSONParser(Context ctx)
+    {
+        this.ctx=ctx;
+    }
+
+
+    public ArrayList<AuthChecker> login(String username,String password)
     {
         final ArrayList<AuthChecker> ret=new ArrayList<AuthChecker>();
         final Context ct = ctx;
@@ -87,7 +96,7 @@ public class JSONParser {
         return ret;
     }
 
-    public ArrayList<AuthChecker> logout(Context ctx)
+    public ArrayList<AuthChecker> logout()
     {
         final ArrayList<AuthChecker> ret=new ArrayList<AuthChecker>();
         final Context ct = ctx;
@@ -127,7 +136,7 @@ public class JSONParser {
         return ret;
     }
 
-    public ArrayList<AuthChecker> passwordReset(String newPass,String oldPass,Context ctx)
+    public ArrayList<AuthChecker> passwordReset(String newPass,String oldPass)
     {
         final Context ct = ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
@@ -164,10 +173,10 @@ public class JSONParser {
         return ret;
     }
 
-    public ArrayList<AuthChecker> newComplaint(Complaint c,Context ct)
+    public ArrayList<AuthChecker> newComplaint(Complaint c)
     {
         final Complaint C=c;
-        final Context ctx = ct;
+        final Context ct = ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
         RequestQueue q = Volley.newRequestQueue(ctx);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+newComplaint, null, new Response.Listener<JSONObject>() {
@@ -215,5 +224,211 @@ public class JSONParser {
         return ret;
     }
 
+    public ArrayList<Complaint> listOfAllComplaints()
+    {
+        final Context ct=ctx;
+        final ArrayList<Complaint> ret = new ArrayList<Complaint>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+allComplaints, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    JSONArray complaints = response.getJSONArray("complaints");
+                    for(int i=0;i<complaints.length();i++)
+                    {
+                        Complaint c = new Complaint();
+                        JSONObject complaint = (JSONObject) complaints.get(i);
+                        c.compId=complaint.getString("compId");
+                        c.filedByUserId=complaint.getString("filedByUserId");
+                        c.title=complaint.getString("title");
+                        c.description=complaint.getString("description");
+                        c.createdat=complaint.getString("createdat");
+                        c.complaintstatus=complaint.getString("complaintstatus");
+                        c.complaintcategory=complaint.getString("complaintcategory");
+                        c.complaintlevel=complaint.getString("complaintlevel");
+                        c.upvotes=complaint.getString("upvotes");
+                        c.downvotes=complaint.getString("downvotes");
+                        ret.add(c);
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Loading Complaint", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error Loading Complaint",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+        return ret;
+    }
+
+    public ArrayList<Complaint> listOfHostelComplaints()
+    {
+        final Context ct=ctx;
+        final ArrayList<Complaint> ret = new ArrayList<Complaint>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+hostelComplaints, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    JSONArray complaints = response.getJSONArray("complaints");
+                    for(int i=0;i<complaints.length();i++)
+                    {
+                        Complaint c = new Complaint();
+                        JSONObject complaint = (JSONObject) complaints.get(i);
+                        c.compId=complaint.getString("compId");
+                        c.filedByUserId=complaint.getString("filedByUserId");
+                        c.title=complaint.getString("title");
+                        c.description=complaint.getString("description");
+                        c.createdat=complaint.getString("createdat");
+                        c.complaintstatus=complaint.getString("complaintstatus");
+                        c.complaintcategory=complaint.getString("complaintcategory");
+                        c.complaintlevel=complaint.getString("complaintlevel");
+                        c.upvotes=complaint.getString("upvotes");
+                        c.downvotes=complaint.getString("downvotes");
+                        ret.add(c);
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Loading Hostel Complaint", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error Loading Hostel Complaint",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+        return ret;
+    }
+
+    public ArrayList<Complaint> listOfInstituteComplaints()
+    {
+        final Context ct=ctx;
+        final ArrayList<Complaint> ret = new ArrayList<Complaint>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+instituteComplaints, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    JSONArray complaints = response.getJSONArray("complaints");
+                    for(int i=0;i<complaints.length();i++)
+                    {
+                        Complaint c = new Complaint();
+                        JSONObject complaint = (JSONObject) complaints.get(i);
+                        c.compId=complaint.getString("compId");
+                        c.filedByUserId=complaint.getString("filedByUserId");
+                        c.title=complaint.getString("title");
+                        c.description=complaint.getString("description");
+                        c.createdat=complaint.getString("createdat");
+                        c.complaintstatus=complaint.getString("complaintstatus");
+                        c.complaintcategory=complaint.getString("complaintcategory");
+                        c.complaintlevel=complaint.getString("complaintlevel");
+                        c.upvotes=complaint.getString("upvotes");
+                        c.downvotes=complaint.getString("downvotes");
+                        ret.add(c);
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Loading Institute Complaint", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error Loading Institute Complaint",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+        return ret;
+    }
+
+    public ArrayList<Complaint> listOfPersonalComplaints()
+    {
+        final Context ct=ctx;
+        final ArrayList<Complaint> ret = new ArrayList<Complaint>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+individualComplaints, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    JSONArray complaints = response.getJSONArray("complaints");
+                    for(int i=0;i<complaints.length();i++)
+                    {
+                        Complaint c = new Complaint();
+                        JSONObject complaint = (JSONObject) complaints.get(i);
+                        c.compId=complaint.getString("compId");
+                        c.filedByUserId=complaint.getString("filedByUserId");
+                        c.title=complaint.getString("title");
+                        c.description=complaint.getString("description");
+                        c.createdat=complaint.getString("createdat");
+                        c.complaintstatus=complaint.getString("complaintstatus");
+                        c.complaintcategory=complaint.getString("complaintcategory");
+                        c.complaintlevel=complaint.getString("complaintlevel");
+                        c.upvotes=complaint.getString("upvotes");
+                        c.downvotes=complaint.getString("downvotes");
+                        ret.add(c);
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Loading Personal Complaint", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error Loading Personal Complaint",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+        return ret;
+    }
+
+    public ArrayList<Complaint> specificComplaint(String compId)
+    {
+        final Context ct=ctx;
+        final ArrayList<Complaint> ret = new ArrayList<Complaint>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+specificComplaint, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                        Complaint c = new Complaint();
+                        JSONObject complaint = response.getJSONObject("complaint");
+                        c.compId=complaint.getString("compId");
+                        c.filedByUserId=complaint.getString("filedByUserId");
+                        c.title=complaint.getString("title");
+                        c.description=complaint.getString("description");
+                        c.createdat=complaint.getString("createdat");
+                        c.complaintstatus=complaint.getString("complaintstatus");
+                        c.complaintcategory=complaint.getString("complaintcategory");
+                        c.complaintlevel=complaint.getString("complaintlevel");
+                        c.upvotes=complaint.getString("upvotes");
+                        c.downvotes=complaint.getString("downvotes");
+                        ret.add(c);
+
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Loading Specific Complaint", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error Loading Institute Specific Complaint",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+        return ret;
+    }
 
 }
