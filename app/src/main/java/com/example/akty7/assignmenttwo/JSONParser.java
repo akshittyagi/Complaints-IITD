@@ -474,7 +474,7 @@ public class JSONParser {
         return ret;
     }
 
-    public boolean addComment(final String description,final String userid, final String createdat)
+    public boolean addComment(final String description,final String userid, final String createdat,final String complaintID)
     {
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
