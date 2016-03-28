@@ -4,7 +4,7 @@ def index():
 
 def input_Complaint_Level():
     requested_level = request.args(0)
-    level = db.Complaint_Level(Level_Name=requested_level)
+    level = db.Complaint_Level(Level_Name==requested_level)
     if not level:
         session.flash='page not found'
         redirect(URL('index'))
