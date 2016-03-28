@@ -7,7 +7,7 @@
     <application
         android:name=".HelperClass.Cookie"
         android:allowBackup="true"
-        android:icon="@drawable/main_complaint_resolution_animal_icon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
