@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        startActivity(new Intent(this,LoginActivity.class));
+        startActivity(new Intent(this,Activity_Login.class));
 
     }
 

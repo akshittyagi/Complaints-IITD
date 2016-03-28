@@ -12,10 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.akty7.assignmenttwo.HelperClass.AuthChecker;
+import com.example.akty7.assignmenttwo.HomeActivity.Activity_Home;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends AppCompatActivity {
+public class Activity_Login extends AppCompatActivity {
     JSONParser jp = new JSONParser();
     Context context;
     @Override
@@ -34,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
               //  ArrayList<AuthChecker> x = jp.login(username, password, context);
                 Boolean loginSuccess = true;
                 if(loginSuccess){
-                    Intent intent = new Intent(context,HomeActivity.class);
+                    Intent intent = new Intent(context,Activity_Home.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("userid",username);
                     intent.putExtras(bundle);
