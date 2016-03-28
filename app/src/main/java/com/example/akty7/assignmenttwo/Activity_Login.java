@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,14 +20,16 @@ import com.example.akty7.assignmenttwo.HomeActivity.Activity_Home;
 import java.util.ArrayList;
 
 public class Activity_Login extends AppCompatActivity {
-    JSONParser jp = new JSONParser();
+    JSONParser jp;
     Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         context = this;
-        Button loginBtn = (Button) findViewById(R.id.loginbtn);
+        jp = new JSONParser(context);
+        final Button loginBtn = (Button) findViewById(R.id.loginbtn);
+        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.milkshake);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,14 +37,21 @@ public class Activity_Login extends AppCompatActivity {
                 String username = ((EditText) findViewById(R.id.userid)).getText().toString();
                 String password = ((EditText) findViewById(R.id.password)).getText().toString();
 
-              //  ArrayList<AuthChecker> x = jp.login(username, password, context);
-                Boolean loginSuccess = true;
+                //Boolean loginSuccess = (jp.login(username, password)).get(0).isSuccessful;
+                Boolean loginSuccess = (username.equals("a"));
                 if(loginSuccess){
                     Intent intent = new Intent(context,Activity_Home.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("userid",username);
                     intent.putExtras(bundle);
                     startActivity(intent);
+                }
+                else {
+                    ((EditText) findViewById(R.id.userid)).setText("");
+                    ((EditText) findViewById(R.id.password)).setText("");
+                    loginBtn.setAnimation(myAnim);
+                    loginBtn.startAnimation(myAnim);
+
                 }
             }
         });
