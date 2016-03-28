@@ -1,0 +1,7 @@
+{{extend 'layout.html'}}
+<h1>Complaints by Level</h1>
+<ul>
+{{for comp in complaints:}}
+{{=LI(A(comp.title, _href=URL("view_complaint", args=comp.id)))}}
+{{pass}}
+</ul>
