@@ -16,10 +16,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.akty7.assignmenttwo.Activity_Login;
 import com.example.akty7.assignmenttwo.JSONParser;
@@ -30,11 +28,12 @@ import java.util.List;
 
 public class Activity_Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private ViewPager viewPager;
-    private Bundle bundle;
-    private TabLayout tabLayout;
-    private JSONParser jp;
-    private Context context;
+    ViewPager viewPager;
+    Bundle bundle;
+    TabLayout tabLayout;
+    JSONParser jp;
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,15 +56,16 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
 
         viewPager = (ViewPager) findViewById(R.id.viewpager_home);
         setupViewPager(viewPager);
+
         tabLayout = (TabLayout) findViewById(R.id.tabs_home);
         tabLayout.setupWithViewPager(viewPager);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new BlankFragment(), "MY ACTIVITY");
-        adapter.addFragment(new BlankFragment(), "HOSTEL LEVEL");
-        adapter.addFragment(new BlankFragment(), "INSTITUTE LEVEL");
+        adapter.addFragment(new Fragment_MyActivity(), "MY ACTIVITY");
+        adapter.addFragment(new Fragment_MyActivity(), "HOSTEL LEVEL");
+        adapter.addFragment(new Fragment_MyActivity(), "INSTITUTE LEVEL");
         viewPager.setAdapter(adapter);
     }
 
@@ -102,7 +102,6 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         }
     }
 
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_home);
@@ -119,7 +118,6 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         getMenuInflater().inflate(R.menu.menu_home, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
