@@ -431,4 +431,197 @@ public class JSONParser {
         return ret;
     }
 
+    public ArrayList<Comment> loadAllComments(String complaintid)
+    {
+        final Context ct=ctx;
+        final ArrayList<Comment> ret = new ArrayList<Comment>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+allComments, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    JSONArray comments = response.getJSONArray("comments");
+                    for(int i=0;i<comments.length();i++)
+                    {
+                        Comment c = new Comment();
+                        JSONObject comment = (JSONObject) comments.get(i);
+                        c.commentId = comment.getString("commentId");
+                        c.createdat = comment.getString("createdat");
+                        c.description = comment.getString("description");
+                        c.createdByUserId = comment.getString("createduserid");
+                        ret.add(c);
+
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Loading All Comments", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error Loading All comments",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+
+        return ret;
+    }
+
+    public ArrayList<Comment> addComment(final String description,final String userid, final String createdat)
+    {
+        final Context ct=ctx;
+        final ArrayList<Comment> ret = new ArrayList<Comment>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+addComment, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                        String success = response.getString("successful");
+                        if(!success.equals("true"))
+                        {
+                            Toast.makeText(ct, "Error Adding Comments", Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            String id = response.getString("id");
+                            Comment c = new Comment();
+                            c.createdByUserId = userid;
+                            c.description = description;
+                            c.createdat = createdat;
+                            c.commentId = id;
+                            ret.add(c);
+                        }
+
+                    }
+                 catch (JSONException e) {
+                    Toast.makeText(ct, "Error Adding Comments", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error Adding comments",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+
+        return ret;
+    }
+
+    public ArrayList<AuthChecker> upvote(String complaintId)
+    {
+        final Context ct=ctx;
+        final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+upvote, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    AuthChecker a = new AuthChecker();
+                    if(response.getString("successful").equals("true"))
+                    {
+                        a.isSuccessful = true;
+                    }
+                    {
+                        a.isSuccessful = false;
+                    }
+
+                    ret.add(a);
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Upvoting", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error upvoting",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+        return ret;
+    }
+
+    public ArrayList<AuthChecker> downvote(String complaintId)
+    {
+        final Context ct=ctx;
+        final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+downvote, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    AuthChecker a = new AuthChecker();
+                    if(response.getString("successful").equals("true"))
+                    {
+                        a.isSuccessful = true;
+                    }
+                    {
+                        a.isSuccessful = false;
+                    }
+
+                    ret.add(a);
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Downvoting", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error downvoting",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+        return ret;
+    }
+
+    public ArrayList<AuthChecker> addUser(final UserIn user)
+    {
+        final Context ct=ctx;
+        final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+addUser, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    AuthChecker a = new AuthChecker();
+                    if(response.getString("successful").equals("true"))
+                    {
+                        a.isSuccessful = true;
+                    }
+                    {
+                        a.isSuccessful = false;
+                    }
+
+                    a.type="User";
+                    a.user.name=user.name;
+                    a.user.affiliation=user.affiliation;
+                    a.user.category=user.category;
+                    a.user.kerberosid=user.kerberosid;
+                    a.user.password=user.password;
+
+                    ret.add(a);
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Adding user", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error adding user",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+        return ret;
+    }
+
 }
