@@ -48,6 +48,7 @@ public class JSONParser {
     String upvote;
     String downvote;
     String addUser;
+    String getUser;
     Context ctx;
 
     public JSONParser(Context ctx)
@@ -624,4 +625,46 @@ public class JSONParser {
         return ret;
     }
 
+    public ArrayList<AuthChecker> getUser(String id)
+    {
+        final Context ct=ctx;
+        final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+getUser, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    AuthChecker a = new AuthChecker();
+                    if(response.getString("successful").equals("true"))
+                    {
+                        a.isSuccessful = true;
+                    }
+                    {
+                        a.isSuccessful = false;
+                    }
+
+                    JSONObject user = response.getJSONObject("user");
+                    a.type="User";
+                    a.user.name=user.getString("name");
+                    a.user.affiliation=user.getString("affiliation");
+                    a.user.category=user.getString("category");
+                    a.user.kerberosid=user.getString("kerberosid");
+                    a.user.password=user.getString("password");
+
+                    ret.add(a);
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Fetching user", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error fetching user",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+        return ret;
+    }
 }
