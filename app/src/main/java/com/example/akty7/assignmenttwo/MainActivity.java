@@ -1,5 +1,6 @@
 package com.example.akty7.assignmenttwo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        startActivity(new Intent(this,LoginActivity.class));
+
     }
 
     @Override
