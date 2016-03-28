@@ -23,7 +23,9 @@
         <activity
             android:name=".Activity_Login"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".HomeActivity.Activity_Home"></activity>
+        <activity android:name=".HomeActivity.Activity_Home"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
