@@ -43,7 +43,6 @@ public class Fragment_MyActivity extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
 
-        return rootView;
     }
 
 }

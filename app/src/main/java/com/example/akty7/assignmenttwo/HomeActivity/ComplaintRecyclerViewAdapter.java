@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.akty7.assignmenttwo.HelperClass.Complaint;
+import com.example.akty7.assignmenttwo.HomeChildren.Activity_Complaint;
 import com.example.akty7.assignmenttwo.JSONParser;
 import com.example.akty7.assignmenttwo.R;
 
@@ -42,8 +43,8 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
         final Complaint comp = mDataset.get(position);
 
         holder.creator.setText(jp.getUser(comp.filedByUserId).name);
-        if(comp.complaintstatus.equals("true")) holder.status.setImageResource(R.id.tick);
-        else holder.status.setImageResource(R.id.cross);
+        if(comp.complaintstatus.equals("true")) holder.status.setImageResource(R.drawable.tick);
+        else holder.status.setImageResource(R.drawable.cross);
         holder.date.setText(comp.createdat);
         holder.vote.setHint("[" + comp.upvotes + "/" + comp.downvotes + "]");
         holder.v.setOnClickListener(new View.OnClickListener() {
