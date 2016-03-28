@@ -53,7 +53,7 @@ public class SplashScreen extends Activity{
                     }
                     Intent intent = new Intent(SplashScreen.this,
                             MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     SplashScreen.this.finish();
                 } catch (InterruptedException e) {
