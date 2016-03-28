@@ -15,6 +15,7 @@ import com.example.akty7.assignmenttwo.HelperClass.Admin;
 import com.example.akty7.assignmenttwo.HelperClass.AuthChecker;
 import com.example.akty7.assignmenttwo.HelperClass.Comment;
 import com.example.akty7.assignmenttwo.HelperClass.Complaint;
+import com.example.akty7.assignmenttwo.HelperClass.Notif;
 import com.example.akty7.assignmenttwo.HelperClass.UserIn;
 
 import org.json.JSONArray;
@@ -38,7 +39,7 @@ public class JSONParser {
     String logout;
     String passReset;
     String newComplaint;
-    String allComplaints;
+    String allComplaintsOfUser;
     String hostelComplaints;
     String instituteComplaints;
     String individualComplaints;
@@ -50,6 +51,7 @@ public class JSONParser {
     String addUser;
     String getUser;
     String categoryComplaint;
+    String getNotificationOfComplaint;
     Context ctx;
 
     public JSONParser(Context ctx)
@@ -226,12 +228,12 @@ public class JSONParser {
         return ret;
     }
 
-    public ArrayList<Complaint> listOfAllComplaints()
+    public ArrayList<Complaint> listOfUserAllComplaints(UserIn user)
     {
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
         RequestQueue q = Volley.newRequestQueue(ctx);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+allComplaints, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+allComplaintsOfUser, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response){
 
@@ -680,7 +682,7 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-                    JSONArray categs = response.getJSONArray("response");
+                    JSONArray categs = response.getJSONArray("categs");
                     for(int i=0;i<categs.length();i++)
                     {
                         JSONObject category = (JSONObject)categs.get(i);
@@ -701,5 +703,41 @@ public class JSONParser {
 
         return ret;
     }
+
+    public ArrayList<Notif> getNotifs()
+    {
+        final Context ct=ctx;
+        final ArrayList<Notif> ret = new ArrayList<Notif>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+getNotificationOfComplaint, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    JSONArray notifs = response.getJSONArray("notifs");
+                    for(int i=0;i<notifs.length();i++)
+                    {
+                        JSONObject category = (JSONObject)notifs.get(i);
+                        Notif n = new Notif();
+                        n.titleOfComplaint = category.getString("title");
+                        n.type = category.getString("type");
+                        ret.add(n);
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Fetching Categories", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error fetching categories",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+
+        return ret;
+    }
+
 }
 
