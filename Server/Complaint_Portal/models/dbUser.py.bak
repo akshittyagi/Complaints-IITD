@@ -17,9 +17,10 @@ db.define_table('Complaint',
    Field('title'),
    Field('body', 'text'),
    Field('CreatedAt', 'datetime', default = datetime.now),
-   Field('Upvotes', 'integer'),
+   Field('Upvotes', 'integer', default = 0),
+   Field('Downvotes', 'integer', default = 0),
    Field('ComplaintCategoryID', 'reference Complaint_Category'),
-   Field('ComplaintStatus'),
+   Field('ComplaintStatus', default=False),
    Field('ComplaintLevelID', 'reference Complaint_Level'))
 
 db.define_table('Comments',
@@ -27,3 +28,10 @@ db.define_table('Comments',
    Field('ComplaintID', 'reference Complaint'),
    Field('body', 'text'),
    Field('WrittenAt', 'datetime', default = datetime.now))
+
+def author(id):
+    if id is None:
+        return "Unknown"
+    else:
+        user=db.auth_user(id)
+        return A('%(first_name)s %(last_name)s' %user,_href=URL('complaints_by_user',args=user.id))
