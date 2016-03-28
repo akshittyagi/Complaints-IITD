@@ -49,6 +49,7 @@ public class JSONParser {
     String downvote;
     String addUser;
     String getUser;
+    String categoryComplaint;
     Context ctx;
 
     public JSONParser(Context ctx)
@@ -668,4 +669,37 @@ public class JSONParser {
         q.add(jsonObjectRequest);
         return ret;
     }
+
+    public ArrayList<String> listOfCategories()
+    {
+        final Context ct=ctx;
+        final ArrayList<String> ret = new ArrayList<String>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+categoryComplaint, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    JSONArray categs = response.getJSONArray("response");
+                    for(int i=0;i<categs.length();i++)
+                    {
+                        JSONObject category = (JSONObject)categs.get(i);
+                        ret.add(category.getString("category"));
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Fetching Categories", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error fetching categories",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+
+        return ret;
+    }
 }
+

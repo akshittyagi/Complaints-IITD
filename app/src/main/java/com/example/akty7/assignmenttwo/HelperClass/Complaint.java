@@ -10,6 +10,7 @@ public class Complaint {
     public String description;
     public String createdat;
     public String complaintstatus;
+
     public String complaintcategory;
     public String complaintlevel;
     public String upvotes;
