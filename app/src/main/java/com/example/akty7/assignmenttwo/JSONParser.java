@@ -15,6 +15,7 @@ import com.example.akty7.assignmenttwo.HelperClass.Admin;
 import com.example.akty7.assignmenttwo.HelperClass.AuthChecker;
 import com.example.akty7.assignmenttwo.HelperClass.Comment;
 import com.example.akty7.assignmenttwo.HelperClass.Complaint;
+import com.example.akty7.assignmenttwo.HelperClass.Notif;
 import com.example.akty7.assignmenttwo.HelperClass.UserIn;
 
 import org.json.JSONArray;
@@ -38,7 +39,7 @@ public class JSONParser {
     String logout;
     String passReset;
     String newComplaint;
-    String allComplaints;
+    String allComplaintsOfUser;
     String hostelComplaints;
     String instituteComplaints;
     String individualComplaints;
@@ -49,6 +50,8 @@ public class JSONParser {
     String downvote;
     String addUser;
     String getUser;
+    String categoryComplaint;
+    String getNotificationOfComplaint;
     Context ctx;
 
     public JSONParser(Context ctx)
@@ -57,7 +60,7 @@ public class JSONParser {
     }
 
 
-    public ArrayList<AuthChecker> login(String username,String password)
+    public boolean login(String username,String password)
     {
         final ArrayList<AuthChecker> ret=new ArrayList<AuthChecker>();
         final Context ct = ctx;
@@ -94,10 +97,10 @@ public class JSONParser {
         });
         q.add(jsonObjectRequest);
 
-        return ret;
+        return ret.get(0).isSuccessful;
     }
 
-    public ArrayList<AuthChecker> logout()
+    public boolean logout()
     {
         final ArrayList<AuthChecker> ret=new ArrayList<AuthChecker>();
         final Context ct = ctx;
@@ -134,10 +137,10 @@ public class JSONParser {
         });
         q.add(jsonObjectRequest);
 
-        return ret;
+        return ret.get(0).isSuccessful;
     }
 
-    public ArrayList<AuthChecker> passwordReset(String newPass,String oldPass)
+    public boolean passwordReset(String newPass,String oldPass)
     {
         final Context ct = ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
@@ -171,10 +174,10 @@ public class JSONParser {
         });
         q.add(jsonObjectRequest);
 
-        return ret;
+        return ret.get(0).isSuccessful;
     }
 
-    public ArrayList<AuthChecker> newComplaint(Complaint c)
+    public boolean newComplaint(Complaint c)
     {
         final Complaint C=c;
         final Context ct = ctx;
@@ -222,15 +225,15 @@ public class JSONParser {
         });
         q.add(jsonObjectRequest);
 
-        return ret;
+        return ret.get(0).isSuccessful;
     }
 
-    public ArrayList<Complaint> listOfAllComplaints()
+    public ArrayList<Complaint> listOfUserAllComplaints(UserIn user)
     {
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
         RequestQueue q = Volley.newRequestQueue(ctx);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+allComplaints, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+allComplaintsOfUser, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response){
 
@@ -394,7 +397,7 @@ public class JSONParser {
         return ret;
     }
 
-    public ArrayList<Complaint> specificComplaint(String compId)
+    public Complaint specificComplaint(String compId)
     {
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
@@ -430,7 +433,7 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret;
+        return ret.get(0);
     }
 
     public ArrayList<Comment> loadAllComments(String complaintid)
@@ -471,10 +474,10 @@ public class JSONParser {
         return ret;
     }
 
-    public ArrayList<Comment> addComment(final String description,final String userid, final String createdat)
+    public boolean addComment(final String description,final String userid, final String createdat,final String complaintID)
     {
         final Context ct=ctx;
-        final ArrayList<Comment> ret = new ArrayList<Comment>();
+        final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
         RequestQueue q = Volley.newRequestQueue(ctx);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+addComment, null, new Response.Listener<JSONObject>() {
             @Override
@@ -482,19 +485,23 @@ public class JSONParser {
 
                 try {
                         String success = response.getString("successful");
+                        AuthChecker a = new AuthChecker();
                         if(!success.equals("true"))
                         {
+                            a.isSuccessful = false;
                             Toast.makeText(ct, "Error Adding Comments", Toast.LENGTH_LONG).show();
+                            ret.add(a);
                         }
                         else
                         {
+                            a.isSuccessful=true;
                             String id = response.getString("id");
                             Comment c = new Comment();
                             c.createdByUserId = userid;
                             c.description = description;
                             c.createdat = createdat;
                             c.commentId = id;
-                            ret.add(c);
+                            ret.add(a);
                         }
 
                     }
@@ -511,10 +518,10 @@ public class JSONParser {
         });
         q.add(jsonObjectRequest);
 
-        return ret;
+        return ret.get(0).isSuccessful;
     }
 
-    public ArrayList<AuthChecker> upvote(String complaintId)
+    public boolean upvote(String complaintId)
     {
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
@@ -546,10 +553,10 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret;
+        return ret.get(0).isSuccessful;
     }
 
-    public ArrayList<AuthChecker> downvote(String complaintId)
+    public boolean downvote(String complaintId)
     {
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
@@ -581,10 +588,10 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret;
+        return ret.get(0).isSuccessful;
     }
 
-    public ArrayList<AuthChecker> addUser(final UserIn user)
+    public boolean addUser(final UserIn user)
     {
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
@@ -623,36 +630,31 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret;
+        return ret.get(0).isSuccessful;
     }
 
-    public ArrayList<AuthChecker> getUser(String id)
+    public UserIn getUser(String id)
     {
         final Context ct=ctx;
-        final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
+        final ArrayList<UserIn> ret = new ArrayList<UserIn>();
         RequestQueue q = Volley.newRequestQueue(ctx);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+getUser, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response){
 
                 try {
-                    AuthChecker a = new AuthChecker();
-                    if(response.getString("successful").equals("true"))
+                    UserIn a = new UserIn();
+                    if(!response.getString("successful").equals("true"))
                     {
-                        a.isSuccessful = true;
-                    }
-                    {
-                        a.isSuccessful = false;
+                        Toast.makeText(ct, "Error Fetching user", Toast.LENGTH_LONG).show();
                     }
 
                     JSONObject user = response.getJSONObject("user");
-                    a.type="User";
-                    a.user.name=user.getString("name");
-                    a.user.affiliation=user.getString("affiliation");
-                    a.user.category=user.getString("category");
-                    a.user.kerberosid=user.getString("kerberosid");
-                    a.user.password=user.getString("password");
-
+                    a.name=user.getString("name");
+                    a.affiliation=user.getString("affiliation");
+                    a.category=user.getString("category");
+                    a.kerberosid=user.getString("kerberosid");
+                    a.password=user.getString("password");
                     ret.add(a);
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Fetching user", Toast.LENGTH_LONG).show();
@@ -666,6 +668,75 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
+        return ret.get(0);
+    }
+
+    public ArrayList<String> listOfCategories()
+    {
+        final Context ct=ctx;
+        final ArrayList<String> ret = new ArrayList<String>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+categoryComplaint, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    JSONArray categs = response.getJSONArray("categs");
+                    for(int i=0;i<categs.length();i++)
+                    {
+                        JSONObject category = (JSONObject)categs.get(i);
+                        ret.add(category.getString("category"));
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Fetching Categories", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error fetching categories",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+
         return ret;
     }
+
+    public ArrayList<Notif> getNotifs()
+    {
+        final Context ct=ctx;
+        final ArrayList<Notif> ret = new ArrayList<Notif>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+getNotificationOfComplaint, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    JSONArray notifs = response.getJSONArray("notifs");
+                    for(int i=0;i<notifs.length();i++)
+                    {
+                        JSONObject category = (JSONObject)notifs.get(i);
+                        Notif n = new Notif();
+                        n.titleOfComplaint = category.getString("title");
+                        n.type = category.getString("type");
+                        ret.add(n);
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Fetching Categories", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error fetching categories",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+
+        return ret;
+    }
+
 }
+

@@ -17,9 +17,10 @@ db.define_table('Complaint',
    Field('title'),
    Field('body', 'text'),
    Field('CreatedAt', 'datetime', default = datetime.now),
-   Field('Upvotes', 'integer'),
+   Field('Upvotes', 'integer', default = 0),
+   Field('Downvotes', 'integer', default = 0),
    Field('ComplaintCategoryID', 'reference Complaint_Category'),
-   Field('ComplaintStatus'),
+   Field('ComplaintStatus', 'boolean', default=False),
    Field('ComplaintLevelID', 'reference Complaint_Level'))
 
 db.define_table('Comments',

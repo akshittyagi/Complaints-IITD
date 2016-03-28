@@ -70,9 +70,6 @@ def view_complaint():
 def vote_complaint():
     return locals()
 
-def vote_comment():
-    return locals()
-
 def change_complaint_status():
     return locals()
 

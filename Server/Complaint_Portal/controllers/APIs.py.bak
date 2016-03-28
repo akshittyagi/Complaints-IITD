@@ -19,4 +19,4 @@ def specific_complaint():
 def list_all_user_complaints():
     if auth.is_logged_in():
         user = db.users(auth.user.id)
-        user_complaints = db(db.Complaint.UserID==auth.user.id).select(orderby=~db.Complaint.CreatedAt)
+        user_complaints = db(db.Complaint
