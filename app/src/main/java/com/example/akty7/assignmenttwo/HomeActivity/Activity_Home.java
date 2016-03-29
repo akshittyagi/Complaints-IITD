@@ -2,6 +2,7 @@ package com.example.akty7.assignmenttwo.HomeActivity;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -13,11 +14,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.example.akty7.assignmenttwo.Activity_Login;
 import com.example.akty7.assignmenttwo.JSONParser;
@@ -26,13 +30,14 @@ import com.example.akty7.assignmenttwo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Activity_Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class Activity_Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     ViewPager viewPager;
     Bundle bundle;
     TabLayout tabLayout;
     JSONParser jp;
     Context context;
+    String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +47,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         jp = new JSONParser(this);
         context = this;
         bundle = getIntent().getExtras();
-
+        userid = bundle.getString("userid");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_home);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_home);
@@ -139,17 +144,71 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         int id = item.getItemId();
 
         if (id == R.id.action_logout) {
-           // Boolean logoutSuccess = jp.logout().get(0).isSuccessful;
-            Boolean logoutSuccess = Math.random() < 0.5;
-            if(logoutSuccess){
+            Boolean logoutSuccess = jp.logout();
+            if (logoutSuccess) {
                 startActivity(new Intent(Activity_Home.this, Activity_Login.class));
                 Activity_Home.this.finish();
-            }
-            else {
+            } else {
                 Snackbar.make(findViewById(R.id.drawer_layout_home), "Logout Failed", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
             }
 
+        }
+        if (id == R.id.action_changepw) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Change Password");
+            final EditText oldPass = new EditText(context);
+            final EditText newPass = new EditText(context);
+            final EditText newPassConfirm = new EditText(context);
+            oldPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            newPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            newPassConfirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            builder.setView(oldPass);
+            builder.setView(newPass);
+            builder.setView(newPassConfirm);
+            // Set up the buttons
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (newPass.getText().equals(newPassConfirm.getText())) {
+                        boolean success = jp.passwordReset(newPass.getText().toString(), oldPass.getText().toString());
+                        if (success) {
+                            dialog.dismiss();
+                            Snackbar.make(findViewById(R.id.drawer_layout_home), "Success! Logging Out", Snackbar.LENGTH_SHORT)
+                                    .setAction("Action", null).show();
+                            Boolean logoutSuccess = jp.logout();
+                            if (logoutSuccess) {
+                                startActivity(new Intent(Activity_Home.this, Activity_Login.class));
+                                Activity_Home.this.finish();
+                            } else {
+                                Snackbar.make(findViewById(R.id.drawer_layout_home), "Logout Failed", Snackbar.LENGTH_SHORT)
+                                        .setAction("Action", null).show();
+                            }
+                        } else {
+                            dialog.dismiss();
+                            Snackbar.make(findViewById(R.id.drawer_layout_home), "Sorry! Wrong Password", Snackbar.LENGTH_SHORT)
+                                    .setAction("Action", null).show();
+                        }
+                    } else {
+                        dialog.dismiss();
+                        Snackbar.make(findViewById(R.id.drawer_layout_home), "Passwords do not match!", Snackbar.LENGTH_SHORT)
+                                .setAction("Action", null).show();
+
+                    }
+
+
+                }
+            });
+
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
         return super.onOptionsItemSelected(item);
     }

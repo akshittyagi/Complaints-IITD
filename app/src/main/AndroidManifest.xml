@@ -34,7 +34,9 @@
             android:name=".HomeChildren.Activity_Complaint"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".HomeChildren.Activity_AddComp" />
-        <activity android:name=".AdminActivities.Activity_UserManagement"></activity>
+        <activity android:name=".AdminActivities.Activity_UserManagement" />
+        <activity android:name=".AuthorityActivities.Activity_ComplaintsForMe" />
+        <activity android:name=".Activity_Profile"></activity>
     </application>
 
 </manifest>

@@ -49,28 +49,28 @@ public class Activity_Login extends AppCompatActivity {
             public void onClick(View v) {
                 String username = ((EditText) findViewById(R.id.userid)).getText().toString();
                 String password = ((EditText) findViewById(R.id.password)).getText().toString();
-
-                //Boolean loginSuccess = (jp.login(username, password)).get(0).isSuccessful;
-                Boolean loginSuccess = (username.equals("a"));
-                if (loginSuccess) {
-                    Intent intent = new Intent(context, Activity_Home.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("userid", username);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    Activity_Login.this.finish();
-                } else {
-                    ((EditText) findViewById(R.id.userid)).setText("");
-                    ((EditText) findViewById(R.id.password)).setText("");
-                    findViewById(R.id.userid).requestFocus();
-                    loginBtn.setAnimation(myAnim);
-                    loginBtn.startAnimation(myAnim);
-
-
-                }
+                jp.login(Activity_Login.this,username, password);
             }
         });
-
-
     }
+
+    public void loginSuccess(){
+        Intent intent = new Intent(context, Activity_Home.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("userid", ((EditText) findViewById(R.id.userid)).getText().toString());
+        intent.putExtras(bundle);
+        startActivity(intent);
+        Activity_Login.this.finish();
+    }
+
+    public void loginFailed(){
+        Button loginBtn = (Button) findViewById(R.id.loginbtn);
+        ((EditText) findViewById(R.id.userid)).setText("");
+        ((EditText) findViewById(R.id.password)).setText("");
+        findViewById(R.id.userid).requestFocus();
+        final Animation myAnim = AnimationUtils.loadAnimation(this, R.anim.milkshake);
+        loginBtn.setAnimation(myAnim);
+        loginBtn.startAnimation(myAnim);
+    }
+
 }
