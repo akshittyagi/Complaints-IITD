@@ -913,43 +913,6 @@ public class JSONParser {
 
     }
 
-    public void getUser(final Activity_Home act,String id)
-    {
-        this.userid = id;
-        String getUser="/Complaint_Portal/APIs/getUser.json?id="+id;
-
-        final Context ct=ctx;
-        final ArrayList<UserIn> ret = new ArrayList<UserIn>();
-        RequestQueue q = Volley.newRequestQueue(ctx);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+getUser, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response){
-
-                try {
-                    UserIn a = new UserIn();
-                    JSONObject user = response.getJSONObject("user");
-                    a.firstname=user.getString("firstName");
-                    a.lastname=user.getString("lastName");
-                    a.category = func(user.getString("category"));
-                    a.kerberosid=user.getString("kerberosID");
-                    a.password=user.getString("password");
-                    act.getUserCallBack(a.category);
-
-
-                } catch (JSONException e) {
-                    Toast.makeText(ct, "Error Fetching user", Toast.LENGTH_LONG).show();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ct,"Error fetching user",Toast.LENGTH_LONG).show();
-            }
-        });
-        q.add(jsonObjectRequest);
-
-    }
 
 
     public void listOfCategories()
