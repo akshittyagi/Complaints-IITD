@@ -34,31 +34,21 @@ public class Fragment_ComplaintsList extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_myactivity, container, false);
         domain = this.getArguments().getString("level");
-        ArrayList<Complaint> usercomps = new ArrayList<>();
-        Complaint c1 = new Complaint();
-        c1.complaintstatus = "true";
-        c1.downvotes = "12";
-        c1.upvotes = "33";
-        c1.compId = "42";
-        c1.complaintcategory="0";
-        c1.complaintlevel="0";
-        c1.createdat="morning";
-        c1.filedByUserId="tera baap";
-        c1.description="dessss";
-        c1.title="This is hostel complaint.. panhe nahi hain bc";
-        usercomps.add(0,c1);
-        //        ArrayList<Complaint> usercomps = myac_jp.listOfPersonalComplaints();
-        if(domain.equals("personal")) {}
-        else if (domain.equals("hostel")) {}
-        else {}
 
+        if(domain == "personal"){
+            myac_jp.listOfUserAllComplaints(Fragment_ComplaintsList.this);
+        }
+        else if(domain == "hostel"){
+            myac_jp.listOfHostelComplaints(Fragment_ComplaintsList.this);
+        }
+        else if (domain == "insti"){
+            myac_jp.listOfInstituteComplaints(Fragment_ComplaintsList.this);
+        }
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.myactivity_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(rootView.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ComplaintRecyclerViewAdapter(usercomps);
-        mRecyclerView.setAdapter(mAdapter);
         return rootView;
 
     }
@@ -67,6 +57,11 @@ public class Fragment_ComplaintsList extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("level", domain);
+    }
+
+    public void getComplaintsCallBack(ArrayList<Complaint> arr){
+        mAdapter = new ComplaintRecyclerViewAdapter(arr);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 }
