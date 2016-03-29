@@ -7,10 +7,7 @@
 
 \f0\fs24 \cf2 \expnd0\expndtw0\kerning0
 LOGIN : \
-http://10.192.45.89:8000/Backend_for_Complaints/default/login.json?userid=<username>&password=<password>\
+http://10.192.45.89:8000/Complaint_Portal/default/login.json?userid=<username>&password=<password>\
 \
 LOGOUT:\
-\pard\pardeftab720
-\cf2 \expnd0\expndtw0\kerning0
-http://10.192.45.89:8000/Backend_for_Complaints\cf2 \expnd0\expndtw0\kerning0
-/default/logout.json\'a0}
+http://10.192.45.89:8000/Complaint_Portal/default/logout.json\'a0}
