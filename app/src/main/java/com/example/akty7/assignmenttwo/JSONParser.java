@@ -334,6 +334,8 @@ public class JSONParser {
     {
         this.oldpass=oldPass;
         this.newpass=newPass;
+        String passReset="/Complaint_Portal/APIs/password_reset.json?old_pass="+oldpass+"&new_pass="+newpass;
+
         final Context ct = ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -375,6 +377,7 @@ public class JSONParser {
         this.title = c.title;
         this.description=c.description;
         this.complaintcategory=c.complaintcategory;
+        String newComplaint="/Complaint_Portal/APIs/make_complaint.json?complaint_level="+complaintlevel+"&complaint_title="+title+"&complaint_body="+description+"&categoryID="+complaintcategory;
 
         final Complaint C=c;
         final Context ct = ctx;
@@ -597,6 +600,7 @@ public class JSONParser {
     public Complaint specificComplaint(String compId)
     {
         this.compId=compId;
+        String specificComplaint="/Complaint_Portal/APIs/specific_complaint.json?complaintID="+compId;
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -637,6 +641,8 @@ public class JSONParser {
     public ArrayList<Comment> loadAllComments(String complaintid)
     {
         this.compId=complaintid;
+        String allComments="/Complaint_Portal/APIs/get_comments.json?complaintID="+compId;
+
         final Context ct=ctx;
         final ArrayList<Comment> ret = new ArrayList<Comment>();
         RequestQueue q = Volley.newRequestQueue(ctx);
