@@ -10,6 +10,7 @@ public class Complaint {
     public String description;
     public String createdat;
     public String complaintstatus;
+    public String isUpvotedByMe; //KARAN
     //TODO: personal:0 hostel:1 institute:2
     public String complaintcategory;
     public String complaintlevel;

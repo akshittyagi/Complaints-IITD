@@ -738,5 +738,8 @@ public class JSONParser {
         return ret;
     }
 
+    public void removeupvote(String comp_id) {
+
+    }
 }
 
