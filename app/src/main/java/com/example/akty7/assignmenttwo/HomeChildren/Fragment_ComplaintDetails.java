@@ -50,7 +50,7 @@ public class Fragment_ComplaintDetails extends Fragment {
         });
 
         FloatingActionButton fab2 = (FloatingActionButton) rootView.findViewById(R.id.comp_resolve_fab);
-        if(!jp.canIResolve(compid)) fab2.setVisibility(View.GONE);
+        if(false) fab2.setVisibility(View.GONE);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
