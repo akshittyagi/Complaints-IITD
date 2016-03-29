@@ -1020,7 +1020,7 @@ public class JSONParser {
         return ret;
     }
 
-    public void getCurrentUser()
+    public void getCurrentUserCategory(final Activity_Home act)
     {
         String getCurrentUser="/Complaint_Portal/APIs/getCurrentUser.json";
         final Context ct=ctx;
@@ -1038,6 +1038,9 @@ public class JSONParser {
                     a.lastname=user.getString("last_name");
                     a.entryno=user.getString("entry_no");
                     a.category = func(user.getString("type_"));
+
+                    act.getCurrentUserCallBack(a.category);
+
                     //Callback required
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Fetching user", Toast.LENGTH_LONG).show();
