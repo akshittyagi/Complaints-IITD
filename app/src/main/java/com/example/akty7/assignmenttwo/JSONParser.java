@@ -21,6 +21,7 @@ import com.example.akty7.assignmenttwo.HelperClass.Complaint;
 import com.example.akty7.assignmenttwo.HelperClass.Notif;
 import com.example.akty7.assignmenttwo.HelperClass.UserIn;
 import com.example.akty7.assignmenttwo.HomeActivity.Activity_Home;
+import com.example.akty7.assignmenttwo.HomeActivity.Fragment_ComplaintsList;
 import com.example.akty7.assignmenttwo.HomeChildren.Activity_AddComp;
 import com.example.akty7.assignmenttwo.HomeChildren.Activity_Complaint;
 
@@ -427,7 +428,7 @@ public class JSONParser {
         return ret.get(0).isSuccessful;
     }
 
-    public ArrayList<Complaint> listOfUserAllComplaints(UserIn user)
+    public void listOfUserAllComplaints(final Fragment_ComplaintsList a)
     {
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
@@ -455,6 +456,9 @@ public class JSONParser {
                         c.downvotes=complaint.getString("downvotes");
                         ret.add(c);
                     }
+
+                    a.getComplaintsCallBack(ret);
+
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Loading Complaint", Toast.LENGTH_LONG).show();
                 }
@@ -467,7 +471,7 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret;
+
     }
 
     public ArrayList<Complaint> listOfHostelComplaints()
