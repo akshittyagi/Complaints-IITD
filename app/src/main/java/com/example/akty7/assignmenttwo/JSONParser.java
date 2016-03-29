@@ -624,7 +624,7 @@ public class JSONParser {
     public void specificComplaint(String compId)
     {
         this.compId=compId;
-        String specificComplaint="/Complaint_Portal/APIs/specific_complaint.json?complaintID="+compId;
+        String specificComplaint="/Complaint_Portal/APIs/specific_complaint.json?compId="+compId;
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -646,6 +646,7 @@ public class JSONParser {
                         c.upvotes=complaint.getString("Upvotes");
                         c.downvotes=complaint.getString("Downvotes");
                         ret.add(c);
+
 
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Loading Specific Complaint", Toast.LENGTH_LONG).show();
@@ -991,7 +992,37 @@ public class JSONParser {
         return ret;
     }
 
-    public void removeupvote(String comp_id) {
+    public void setResolved(String comp_id)
+    {
+        String setresolved = "/Complaint_Portal/APIs/set_resolved.json?complaintid="+comp_id;
+        final Context ct=ctx;
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+setresolved, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    boolean succ = response.getBoolean("success");
+                    if(succ)
+                    {
+
+                    }
+                    else
+                    {
+                        
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Resolving Complaint", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error resolving complaint",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
 
     }
 }
