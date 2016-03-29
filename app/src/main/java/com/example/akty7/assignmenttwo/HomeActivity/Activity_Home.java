@@ -42,6 +42,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
     Context context;
     String userid;
     UserIn user;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_home);
+         navigationView = (NavigationView) findViewById(R.id.nav_view_home);
 
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -230,7 +231,16 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         }
     }
 
-    public void getUserCallBack(String category){
+    public void getCurrentUserCallBack(String category){
+        if(category=="student"){
+            navigationView.inflateMenu(R.menu.activity_home_drawer);
+        }
+        else if (category=="admin"){
+            navigationView.inflateMenu(R.menu.activity_home_drawer_admin);
+        }
+        else{
+            navigationView.inflateMenu(R.menu.activity_home_drawer_authority);
+        }
 
     }
 }
