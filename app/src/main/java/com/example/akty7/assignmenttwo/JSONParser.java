@@ -330,11 +330,11 @@ public class JSONParser {
     }
 
 
-    public boolean passwordReset(String newPass,String oldPass)
+    public void passwordReset(final Activity_Home a,String newPass,String oldPass)
     {
         this.oldpass=oldPass;
         this.newpass=newPass;
-        String passReset="/Complaint_Portal/APIs/password_reset.json?old_pass="+oldpass+"&new_pass="+newpass;
+        final String passReset="/Complaint_Portal/APIs/password_reset.json?old_pass="+oldpass+"&new_pass="+newpass;
 
         final Context ct = ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
@@ -344,17 +344,17 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-                    AuthChecker a=new AuthChecker();
+
                     String succ=response.getString("success");
                     if(succ.equals("true"))
                     {
-                        a.isSuccessful=true;
+                      a.passChangedCallBack(true);
                     }
                     else
                     {
-                        a.isSuccessful=false;
+                        a.passChangedCallBack(false);
                     }
-                    ret.add(a);
+
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Resetting password", Toast.LENGTH_LONG).show();
                 }
@@ -368,7 +368,6 @@ public class JSONParser {
         });
         q.add(jsonObjectRequest);
 
-        return ret.get(0).isSuccessful;
     }
 
     public boolean newComplaint(Complaint c)

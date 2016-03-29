@@ -163,7 +163,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (newPass.getText().equals(newPassConfirm.getText())) {
-                        jp.passwordReset(newPass.getText().toString(), oldPass.getText().toString());
+                        jp.passwordReset(Activity_Home.this,newPass.getText().toString(), oldPass.getText().toString());
                         dialog.dismiss();
                     } else {
                         dialog.dismiss();
