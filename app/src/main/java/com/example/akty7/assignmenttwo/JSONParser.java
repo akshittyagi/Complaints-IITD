@@ -960,6 +960,33 @@ public class JSONParser {
         q.add(jsonObjectRequest);
     }
 
+    public void removeUser(final Activity_UserManagement a,String userid)
+    {
+        String remove ="/Complaint_Portal/APIs/removeUser.json?id="+userid;
+        final Context ct=ctx;
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+remove, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    boolean succ = response.getBoolean("success");
+                    a.userDeletedCallBack();
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Removinf User", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error removing user",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+
+    }
+
 
     public void setResolved(final Fragment_ComplaintDetails a,String comp_id)
     {
