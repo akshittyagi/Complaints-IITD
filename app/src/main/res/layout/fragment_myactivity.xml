@@ -23,9 +23,9 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin"
-        fab:menu_colorNormal="#DA4336"
-        fab:menu_colorPressed="#E75043"
-        fab:menu_colorRipple="#99FFFFFF"
+        fab:menu_colorNormal="@color/colorAccent"
+        fab:menu_colorPressed="@color/colorAccent"
+        fab:menu_colorRipple="@color/colorPrimary"
         fab:menu_icon="@drawable/fab_add"
         fab:menu_labels_showAnimation="@anim/fab_slide_in_from_right"
         fab:menu_labels_hideAnimation="@anim/fab_slide_out_to_right"
@@ -36,12 +36,17 @@
         fab:menu_fab_hide_animation="@anim/jump_to_down">
 
         <com.github.clans.fab.FloatingActionButton
+
             android:id="@+id/menu_item_personal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_image_timer_auto"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_colorPressed="@color/colorAccent"
+            fab:fab_colorRipple="@color/colorPrimary"
             fab:fab_size="mini"
-            fab:fab_label="Personal" />
+            fab:fab_label="Personal"
+            />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_item_hostel"
@@ -49,7 +54,10 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_social_domain"
             fab:fab_size="mini"
-            fab:fab_label="Hostel Level" />
+            fab:fab_label="Hostel Level"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_colorPressed="@color/colorAccent"
+            fab:fab_colorRipple="@color/colorPrimary"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/menu_item_insti"
@@ -57,7 +65,10 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_action_account_balance"
             fab:fab_size="mini"
-            fab:fab_label="Institute Level" />
+            fab:fab_label="Institute Level"
+            fab:fab_colorNormal="@color/colorAccent"
+            fab:fab_colorPressed="@color/colorAccent"
+            fab:fab_colorRipple="@color/colorPrimary"/>
 
     </com.github.clans.fab.FloatingActionMenu>
 
