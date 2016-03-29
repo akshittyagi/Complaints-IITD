@@ -77,11 +77,11 @@ public class JSONParser {
     }
 
 
-    public boolean login(String username,String password)
+    public void login(final Activity_Login a,String username,String password)
     {
         this.username=username;
         this.password=password;
-        final ArrayList<AuthChecker> ret=new ArrayList<AuthChecker>();
+        String login="/Complaint_Portal/default/login.json?userid="+username+"&password="+password;
         final Context ct = ctx;
         RequestQueue q = Volley.newRequestQueue(ctx);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+login, null, new Response.Listener<JSONObject>() {
@@ -89,19 +89,16 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-
-                    AuthChecker a=new AuthChecker();
                     String succ=response.getString("success");
                     if(succ.equals("true"))
                     {
-                        a.isSuccessful=true;
+                        a.loginSuccess();
                     }
                     else
                     {
-                        a.isSuccessful=false;
+                        a.loginFailed();
                     }
 
-                    ret.add(a);
 
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Signing in", Toast.LENGTH_LONG).show();
@@ -116,10 +113,9 @@ public class JSONParser {
         });
         q.add(jsonObjectRequest);
 
-        return ret.get(0).isSuccessful;
     }
 
-    public boolean logout()
+    public void logout()
     {
         final ArrayList<AuthChecker> ret=new ArrayList<AuthChecker>();
         final Context ct = ctx;
@@ -155,8 +151,6 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-
-        return ret.get(0).isSuccessful;
     }
 
     public boolean passwordReset(String newPass,String oldPass)
