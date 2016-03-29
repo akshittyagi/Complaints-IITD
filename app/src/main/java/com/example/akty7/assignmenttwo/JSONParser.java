@@ -724,7 +724,7 @@ public class JSONParser {
 
     }
 
-    public void upvote(String complaintId)
+    public void upvote(final Fragment_ComplaintDetails a,String complaintId)
     {
         this.compId = complaintId;
         String upvote="/Complaint_Portal/APIs/upvote.json?complaintid="+complaintId;
@@ -737,10 +737,9 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-                    Boolean succ = response.getBoolean("success");
 
-
-
+                    boolean succ = response.getBoolean("success");
+                    a.upvoteCallBack();
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Upvoting", Toast.LENGTH_LONG).show();
                 }
@@ -755,10 +754,10 @@ public class JSONParser {
         q.add(jsonObjectRequest);
     }
 
-    public boolean downvote(String complaintId)
+    public boolean downvote(final Fragment_ComplaintDetails a,String complaintId)
     {
         this.compId = complaintId;
-        String downvote="/Complaint_Portal/APIs/downvote.json?complaintID="+compId;
+        String downvote="/Complaint_Portal/APIs/downvote.json?complaintid="+compId;
 
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
@@ -768,16 +767,8 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-                    AuthChecker a = new AuthChecker();
-                    if(response.getString("successful").equals("true"))
-                    {
-                        a.isSuccessful = true;
-                    }
-                    {
-                        a.isSuccessful = false;
-                    }
-
-                    ret.add(a);
+                        boolean succ = response.getBoolean("success");
+                        a.downvoteCallBack();
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Downvoting", Toast.LENGTH_LONG).show();
                 }
@@ -793,7 +784,7 @@ public class JSONParser {
         return ret.get(0).isSuccessful;
     }
 
-    public boolean addUser(final UserIn user)
+    public void addUser(final Activity_UserManagement a,final UserIn user)
     {
         this.hostel = user.hostel;
         this.category = user.category;
@@ -803,7 +794,7 @@ public class JSONParser {
         this.kerberosid = user.kerberosid;
         this.lastName = user.lastname;
         this.firstName = user.firstname;
-        String addUser="/Complaint_Portal/APIs/addUser.json?firstName="+firstName+"&lastName="+lastName+"&kerberos="+kerberosid+"&Email="+email+"&entryno="+entrynumber+"&passWord="+password+"&category="+category+"&hostel="+hostel;
+        String addUser="/Complaint_Portal/APIs/addUser.json?firstName="+firstName+"&lastName="+lastName+"&kerberosid="+kerberosid+"&email="+email+"&entrynumber="+entrynumber+"&password="+password+"&category="+category+"&hostel="+hostel;
 
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
@@ -813,24 +804,8 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-                    AuthChecker a = new AuthChecker();
-                    if(response.getString("successful").equals("true"))
-                    {
-                        a.isSuccessful = true;
-                    }
-                    {
-                        a.isSuccessful = false;
-                    }
-
-                    a.type="User";
-                    a.user.firstname=user.firstname;
-                    a.user.lastname=user.lastname;
-                    a.user.affiliation=user.affiliation;
-                    a.user.category=user.category;
-                    a.user.kerberosid=user.kerberosid;
-                    a.user.password=user.password;
-
-                    ret.add(a);
+                    boolean succ = response.getBoolean("success");
+                    a.userAddedCallBack();
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Adding user", Toast.LENGTH_LONG).show();
                 }
@@ -843,8 +818,7 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret.get(0).isSuccessful;
-    }
+      }
 
     public UserIn getUser(String id)
     {
@@ -955,7 +929,7 @@ public class JSONParser {
         return ret;
     }
 
-    public void setResolved(String comp_id)
+    public void setResolved(final Fragment_ComplaintDetails a,String comp_id)
     {
         String setresolved = "/Complaint_Portal/APIs/set_resolved.json?complaintid="+comp_id;
         final Context ct=ctx;
@@ -966,14 +940,7 @@ public class JSONParser {
 
                 try {
                     boolean succ = response.getBoolean("success");
-                    if(succ)
-                    {
-
-                    }
-                    else
-                    {
-
-                    }
+                    a.resolvedCallBack();
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Resolving Complaint", Toast.LENGTH_LONG).show();
                 }
