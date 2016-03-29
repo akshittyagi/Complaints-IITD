@@ -107,7 +107,7 @@ I00
 sg10
 S'reference users'
 p31
-ssS'complaintstatus'
+ssS'createdat'
 p32
 (dp33
 g4
@@ -115,14 +115,14 @@ I512
 sg5
 I00
 sg6
-I9
+I5
 sg7
-S'CHAR(1)'
+S'TIMESTAMP'
 p34
 sg9
 I00
 sg10
-S'boolean'
+S'datetime'
 p35
 ssS'upvotes'
 p36
@@ -157,7 +157,7 @@ I00
 sg10
 S'id'
 p42
-ssS'createdat'
+ssS'complaintstatus'
 p43
 (dp44
 g4
@@ -165,13 +165,13 @@ I512
 sg5
 I00
 sg6
-I5
+I9
 sg7
-S'TIMESTAMP'
+S'CHAR(1)'
 p45
 sg9
 I00
 sg10
-S'datetime'
+S'boolean'
 p46
 ss.

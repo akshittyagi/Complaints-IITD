@@ -54,4 +54,8 @@ GET USER:\
 http://10.192.45.89:8000/Complaint_Portal/APIs/getUser.json?id=<id>\
 \
 GET COMPLAINT CATEGORIES:\
-http://10.192.45.89:8000/Complaint_Portal/APIs/getListOfCategories.json}
+http://10.192.45.89:8000/Complaint_Portal/APIs/getListOfCategories.json\
+\
+SET STATUS RESOLVED OF A COMPLAINT:\
+http://10.192.45.89:8000/Complaint_Portal/APIs/set_resolved.json?complaintid=<complaintid>\
+}
