@@ -1,5 +1,6 @@
 package com.example.akty7.assignmenttwo.HomeChildren;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -154,5 +155,13 @@ public class Activity_Complaint extends AppCompatActivity implements NavigationV
         return true;
     }
 
-
+    public void logoutCallBack(boolean logoutSuccess) {
+        if (logoutSuccess) {
+            startActivity(new Intent(Activity_Complaint.this, Activity_Login.class));
+            Activity_Complaint.this.finish();
+        } else {
+            //  Snackbar.make(findViewById(R.id.), "Logout Failed", Snackbar.LENGTH_SHORT)
+            //          .setAction("Action", null).show();
+        }
+    }
 }

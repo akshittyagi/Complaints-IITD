@@ -683,6 +683,8 @@ public class JSONParser {
     {
         this.compId = complaintID;
         this.description = description;
+        String addComment="/Complaint_Portal/APIs/add_comment.json?complaintID="+compId+"&comment_body="+description;
+
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -731,6 +733,8 @@ public class JSONParser {
     public boolean upvote(String complaintId)
     {
         this.compId = complaintId;
+        String upvote="/Complaint_Portal/APIs/upvote.json?complaintID="+compId;
+
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -767,6 +771,8 @@ public class JSONParser {
     public boolean downvote(String complaintId)
     {
         this.compId = complaintId;
+        String downvote="/Complaint_Portal/APIs/downvote.json?complaintID="+compId;
+
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -810,6 +816,7 @@ public class JSONParser {
         this.kerberosid = user.kerberosid;
         this.lastName = user.lastname;
         this.firstName = user.firstname;
+        String addUser="/Complaint_Portal/APIs/addUser.json?firstName="+firstName+"&lastName="+lastName+"&kerberos="+kerberosid+"&Email="+email+"&entryno="+entrynumber+"&passWord="+password+"&category="+category+"&hostel="+hostel;
 
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
@@ -855,6 +862,8 @@ public class JSONParser {
     public UserIn getUser(String id)
     {
         this.userid = id;
+        String getUser="/Complaint_Portal/APIs/getUser.json?user_id="+userid;
+
         final Context ct=ctx;
         final ArrayList<UserIn> ret = new ArrayList<UserIn>();
         RequestQueue q = Volley.newRequestQueue(ctx);
