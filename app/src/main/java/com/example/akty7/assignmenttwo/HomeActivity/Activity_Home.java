@@ -230,7 +230,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         }
     }
 
-    public void getUserCallBack(){
+    public void getUserCallBack(String category){
 
     }
 }
