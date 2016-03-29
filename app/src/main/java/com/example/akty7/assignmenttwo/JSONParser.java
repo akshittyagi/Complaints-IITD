@@ -630,7 +630,7 @@ public class JSONParser {
                         c.downvotes=complaint.getString("downvotes");
                         ret.add(c);
 
-                        a.specificComplaintCallBack(true,c);
+                        a.specificComplaintCallBack(true, c);
 
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Loading Specific Complaint", Toast.LENGTH_LONG).show();
@@ -768,7 +768,7 @@ public class JSONParser {
 
                 try {
                         boolean succ = response.getBoolean("success");
-                        a.downvoteCallBack();
+                        a.downVoteCallBack();
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Downvoting", Toast.LENGTH_LONG).show();
                 }
@@ -820,10 +820,10 @@ public class JSONParser {
         q.add(jsonObjectRequest);
       }
 
-    public UserIn getUser(String id)
+    public UserIn getUser(final Activity_UserManagement act,String id)
     {
         this.userid = id;
-        String getUser="/Complaint_Portal/APIs/getUser.json?user_id="+userid;
+        String getUser="/Complaint_Portal/APIs/getUser.json?id="+id;
 
         final Context ct=ctx;
         final ArrayList<UserIn> ret = new ArrayList<UserIn>();
@@ -834,19 +834,15 @@ public class JSONParser {
 
                 try {
                     UserIn a = new UserIn();
-                    if(!response.getString("successful").equals("true"))
-                    {
-                        Toast.makeText(ct, "Error Fetching user", Toast.LENGTH_LONG).show();
-                    }
-
                     JSONObject user = response.getJSONObject("user");
-                    a.firstname=user.getString("firstname");
-                    a.lastname=user.getString("lastname");
-                    a.affiliation=user.getString("affiliation");
+                    a.firstname=user.getString("firstName");
+                    a.lastname=user.getString("lastName");
                     a.category=user.getString("category");
-                    a.kerberosid=user.getString("kerberosid");
+                    a.kerberosid=user.getString("kerberosID");
                     a.password=user.getString("password");
-                    ret.add(a);
+                    act.getUserCallBack(a);
+
+
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Fetching user", Toast.LENGTH_LONG).show();
                 }
@@ -872,12 +868,14 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-                    JSONArray categs = response.getJSONArray("categs");
+                    JSONArray categs = response.getJSONArray("list_of_categories");
                     for(int i=0;i<categs.length();i++)
                     {
-                        JSONObject category = (JSONObject)categs.get(i);
-                        ret.add(category.getString("category"));
+                        String category = (String)categs.get(i);
+                        ret.add(category);
                     }
+
+                    //callback
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Fetching Categories", Toast.LENGTH_LONG).show();
                 }
@@ -928,6 +926,40 @@ public class JSONParser {
 
         return ret;
     }
+
+    public void getCurrentUser()
+    {
+        String getCurrentUser="/Complaint_Portal/APIs/getCurrentUser.json";
+        final Context ct=ctx;
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+getCurrentUser, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+
+                    UserIn a = new UserIn();
+                    JSONObject user = response.getJSONObject("user");
+                    a.userid = user.getString("username");
+                    a.firstname=user.getString("first_name");
+                    a.lastname=user.getString("last_name");
+                    a.entryno=user.getString("entry_no");
+                    a.affiliation=user.getString("type_");
+                    //Callback required
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Fetching user", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error fetching user",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+    }
+
 
     public void setResolved(final Fragment_ComplaintDetails a,String comp_id)
     {
