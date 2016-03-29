@@ -55,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/userid"
+            android:text="cs1140227"
             android:singleLine="true"
             android:imeOptions="actionNext"
             android:textColor="@color/colorPrimaryText"
@@ -77,6 +78,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="a"
             android:inputType="textPassword"
             android:ems="10"
             android:textColor="@color/colorPrimaryText"

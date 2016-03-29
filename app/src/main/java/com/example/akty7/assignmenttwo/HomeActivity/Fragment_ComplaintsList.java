@@ -1,5 +1,6 @@
 package com.example.akty7.assignmenttwo.HomeActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,7 +25,7 @@ public class Fragment_ComplaintsList extends Fragment {
 
     public Fragment_ComplaintsList() {
         // Required empty public constructor
-        myac_jp = new JSONParser(getContext());
+
 
     }
 
@@ -34,6 +35,8 @@ public class Fragment_ComplaintsList extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_myactivity, container, false);
         domain = this.getArguments().getString("level");
+
+        myac_jp = new JSONParser(getActivity().getApplicationContext());
 
         if(domain == "personal"){
             myac_jp.listOfUserAllComplaints(Fragment_ComplaintsList.this);
@@ -52,6 +55,10 @@ public class Fragment_ComplaintsList extends Fragment {
         return rootView;
 
     }
+  /*  @Override
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        ctx = view.getContext();
+    }*/
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

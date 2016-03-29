@@ -474,7 +474,7 @@ public class JSONParser {
 
     }
 
-    public ArrayList<Complaint> listOfHostelComplaints()
+    public ArrayList<Complaint> listOfHostelComplaints(Fragment_ComplaintsList fragment_complaintsList)
     {
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
@@ -516,7 +516,7 @@ public class JSONParser {
         return ret;
     }
 
-    public ArrayList<Complaint> listOfInstituteComplaints()
+    public ArrayList<Complaint> listOfInstituteComplaints(Fragment_ComplaintsList fragment_complaintsList)
     {
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
