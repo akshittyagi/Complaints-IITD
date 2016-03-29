@@ -1,5 +1,4 @@
 package com.example.akty7.assignmenttwo.HelperClass;
-
 /**
  * Created by akty7 on 28-Mar-16.
  */

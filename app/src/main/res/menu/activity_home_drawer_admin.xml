@@ -41,7 +41,7 @@
                 android:title="Profile" />
             <item
                 android:id="@+id/nav_logout"
-                android:icon="@android:drawable/arrow_down_float"
+                android:icon="@android:drawable/ic_menu_revert"
                 android:title="Logout" />
             <item
                 android:id="@+id/nav_abouts"
