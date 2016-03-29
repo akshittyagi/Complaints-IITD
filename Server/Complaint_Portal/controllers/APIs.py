@@ -1,14 +1,14 @@
 def password_reset():
     if auth.is_logged_in():
         user = db.users(auth.user.id)
-        old_pass = str(request.vars["oldPass"]).strip()
-        new_pass = str(request.vars["newPass"]).strip()
-        user_pass = auth.user.password
+        old_pass = str(request.vars["oldPass"])
+        new_pass = str(request.vars["newPass"])
+        user_pass = user.password
         if user_pass==old_pass :
-            auth.user.password = new_pass
+            user.update_record(password = new_pass)
             return dict(success=True)
         else:
-            return dict(success=False)
+            return dict(success=False, user_pass=user_pass, old_pass=old_pass, new_pass=new_pass)
 
 def make_complaint():
     if auth.is_logged_in():
