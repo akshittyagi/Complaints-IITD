@@ -1,4 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_Home"
+            android:icon="@drawable/ic_notif"
+            android:title="Home" />
+
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@drawable/ic_calendar"
+            android:title="Complaints" />
+    </group>
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_AddUser"
+            android:icon="@android:drawable/ic_input_add"
+            android:title="Add User"/>
+        <item
+            android:id="@+id/nav_ListofUsers"
+            android:icon="@android:drawable/ic_media_play"
+            android:title="List of Users"/>
+        <item
+            android:id="@+id/nav_RemoveUser"
+            android:icon="@android:drawable/ic_lock_power_off"
+            android:title="Remove User"/>
+
+
+
+    </group>
+
+    <item android:title="Account Settings">
+        <menu>
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@android:drawable/ic_menu_agenda"
+                android:title="Profile" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@android:drawable/arrow_down_float"
+                android:title="Logout" />
+            <item
+                android:id="@+id/nav_abouts"
+                android:icon="@android:drawable/ic_dialog_info"
+                android:title="About Us" />
+
+        </menu>
+    </item>
+
 </menu>
