@@ -6,9 +6,13 @@ package com.example.akty7.assignmenttwo.HelperClass;
 public class UserIn{
     public String userid;
     public String password;
-    public String name;
     public String category;
     public String kerberosid;
+    public String hostel;
+    public String entryno;
+    public String email;
+    public String firstname;
+    public String lastname;
     //TODO: affiliation: Student, Admin, Deans/Warden, Staff
     public String affiliation;
 }
