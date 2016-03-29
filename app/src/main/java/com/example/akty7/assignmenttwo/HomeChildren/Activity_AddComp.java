@@ -32,10 +32,7 @@ public class Activity_AddComp extends AppCompatActivity {
                 complaint.complaintcategory = String.valueOf(((Spinner) findViewById(R.id.addcomp_categ)).getSelectedItemPosition());
                 complaint.complaintlevel = String.valueOf(((Spinner) findViewById(R.id.addcomp_level)).getSelectedItemPosition());
                 complaint.description = ((EditText) findViewById(R.id.addcomp_desc)).getText().toString();
-                boolean success = jp.newComplaint(complaint);
-                if(success){
-
-                }
+                jp.newComplaint(Activity_AddComp.this,complaint);
             }
         });
 

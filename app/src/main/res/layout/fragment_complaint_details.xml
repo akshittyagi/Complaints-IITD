@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:text="New Text"
             android:textStyle="bold"
-            android:id="@+id/textView8"
+            android:id="@+id/comp_details_title"
             android:layout_gravity="center_horizontal" />
 
         <RelativeLayout
@@ -35,32 +35,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Level"
-                android:id="@+id/textView12" />
+                android:id="@+id/comp_details_level" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Category"
-                android:id="@+id/textView13"
+                android:id="@+id/comp_details_categ"
                 android:layout_alignParentRight="true"/>
 
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/colorAccent"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"
-            android:id="@+id/textView9"
+            android:id="@+id/comp_details_desc"
             android:layout_gravity="center_horizontal" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/colorAccent"/>
 
         <RelativeLayout
@@ -72,27 +72,28 @@
                 android:layout_height="wrap_content"
                 android:text="New Text"
                 android:layout_alignParentLeft="true"
-                android:id="@+id/textView10" />
+                android:id="@+id/comp_details_date" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
                 android:layout_alignParentRight="true"
-                android:id="@+id/textView11" />
+                android:id="@+id/comp_details_creator" />
         </RelativeLayout>
 
     </LinearLayout>
 
     <LinearLayout
         android:gravity="right"
+        android:id="@+id/comp_details_fabbar"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/comm_upvote_fab"
+            android:id="@+id/comp_upvote_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
@@ -104,7 +105,7 @@
             fab:fab_colorRipple="@color/colorAccent"/>
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/comm_downvote_fab"
+            android:id="@+id/comp_downvote_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
@@ -116,7 +117,7 @@
             fab:fab_colorRipple="@color/colorAccent"/>
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/comm_resolve_fab"
+            android:id="@+id/comp_resolve_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"

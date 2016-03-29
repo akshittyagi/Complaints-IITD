@@ -14,19 +14,17 @@
         android:layout_margin="0dp"
         card_view:cardCornerRadius="2dp"
         card_view:cardElevation="4dp"
-        card_view:contentPadding="10dp">
+        >
 
         <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/comp_card_image"
-                android:layout_marginTop="@dimen/fab_margin"
-                android:layout_marginBottom="@dimen/fab_margin"
-                android:src="@drawable/main_complaint_resolution_animal_icon"
+                android:src="@drawable/ic_navigation_cancel"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true" />
             <TextView
@@ -36,7 +34,7 @@
                 android:id="@+id/comp_card_title"
                 android:layout_toRightOf="@id/comp_card_image"
                 android:layout_alignParentTop="true"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:layout_width="wrap_content"

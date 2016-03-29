@@ -44,11 +44,11 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
 
       //  holder.creator.setText(jp.getUser(comp.filedByUserId).name);
         holder.creator.setText(comp.filedByUserId);
-        if(comp.complaintstatus.equals("true")) holder.status.setImageResource(R.drawable.tick);
-        else holder.status.setImageResource(R.drawable.cross);
+        if(comp.complaintstatus.equals("true")) holder.status.setImageResource(R.drawable.ic_maps_beenhere);
+        else holder.status.setImageResource(R.drawable.ic_navigation_cancel);
         holder.date.setText(comp.createdat);
         holder.title.setText(comp.title);
-        holder.vote.setText("[" + comp.upvotes + "/" + comp.downvotes + "]");
+        holder.vote.setText("[+" + comp.upvotes + "/-" + comp.downvotes + "]");
         holder.v.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -1,17 +1,24 @@
 package com.example.akty7.assignmenttwo.HomeChildren;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.akty7.assignmenttwo.HelperClass.Complaint;
+import com.example.akty7.assignmenttwo.JSONParser;
 import com.example.akty7.assignmenttwo.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Fragment_ComplaintDetails extends Fragment {
+    JSONParser jp;
+    String compid;
+    View rootView;
 
     public Fragment_ComplaintDetails() {
         // Required empty public constructor
@@ -20,8 +27,26 @@ public class Fragment_ComplaintDetails extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_complaint_details,container,false);
+        rootView = inflater.inflate(R.layout.fragment_complaint_details,container,false);
+        jp = new JSONParser(getActivity().getApplicationContext());
+        compid = this.getArguments().getString("complaintid");
+        jp.specificComplaint(Fragment_ComplaintDetails.this,compid);
+        return rootView;
+    }
 
+    public void specificComplaintCallBack(boolean success, Complaint c){
+        if(!success){
+            Snackbar.make(rootView.findViewById(R.id.comp_details_title),"Sorry.. There was some problem",Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Action", null).show();
+        }
+        else{
+            ((TextView) rootView.findViewById(R.id.comp_details_title)).setText(c.title);
+            ((TextView) rootView.findViewById(R.id.comp_details_desc)).setText(c.description);
+            ((TextView) rootView.findViewById(R.id.comp_details_creator)).setText(c.filedByUserId);
+            ((TextView) rootView.findViewById(R.id.comp_details_categ)).setText(c.complaintcategory);
+            ((TextView) rootView.findViewById(R.id.comp_details_date)).setText(c.createdat);
+            ((TextView) rootView.findViewById(R.id.comp_details_level)).setText(c.complaintlevel);
+        }
     }
 
 }
