@@ -24,6 +24,7 @@ import com.example.akty7.assignmenttwo.HomeActivity.Activity_Home;
 import com.example.akty7.assignmenttwo.HomeActivity.Fragment_ComplaintsList;
 import com.example.akty7.assignmenttwo.HomeChildren.Activity_AddComp;
 import com.example.akty7.assignmenttwo.HomeChildren.Activity_Complaint;
+import com.example.akty7.assignmenttwo.HomeChildren.Fragment_ComplaintDetails;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -371,13 +372,13 @@ public class JSONParser {
 
     }
 
-    public boolean newComplaint(Complaint c)
+    public boolean newComplaint(final Activity_AddComp a,Complaint c)
     {
         this.complaintlevel = c.complaintlevel;
         this.title = c.title;
         this.description=c.description;
         this.complaintcategory=c.complaintcategory;
-        String newComplaint="/Complaint_Portal/APIs/make_complaint.json?complaint_level="+complaintlevel+"&complaint_title="+title+"&complaint_body="+description+"&categoryID="+complaintcategory;
+        String newComplaint="/Complaint_Portal/APIs/make_complaint.json?complaintlevel="+complaintlevel+"&title="+title+"&description="+description+"&complaintcategory="+complaintcategory;
 
         final Complaint C=c;
         final Context ct = ctx;
@@ -388,32 +389,13 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-                    AuthChecker a=new AuthChecker();
-                    String succ=response.getString("success");
-                    if(succ.equals("true"))
-                    {
-                        a.isSuccessful=true;
-                    }
-                    else
-                    {
-                        a.isSuccessful=false;
-                    }
-                    a.type="Complaint";
-                    a.complaint.compId=C.compId;
-                    a.complaint.filedByUserId=C.filedByUserId;
-                    a.complaint.title=C.title;
-                    a.complaint.description=C.description;
-                    a.complaint.createdat=C.createdat;
-                    a.complaint.complaintstatus=C.complaintstatus;
-                    a.complaint.complaintcategory=C.complaintcategory;
-                    a.complaint.complaintlevel=C.complaintlevel;
-                    a.complaint.upvotes=C.upvotes;
-                    a.complaint.downvotes=C.downvotes;
-                    ret.add(a);
 
+                        boolean succ = response.getBoolean("success");
+                            a.addedCallBack(succ);
 
                 } catch (JSONException e) {
                     Toast.makeText(ctx, "Error Adding Complaint", Toast.LENGTH_LONG).show();
+                    a.addedCallBack(false);
                 }
 
             }
@@ -421,6 +403,7 @@ public class JSONParser {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(ctx,"Error Adding Complaint",Toast.LENGTH_LONG).show();
+                a.addedCallBack(false);
             }
         });
         q.add(jsonObjectRequest);
@@ -621,7 +604,7 @@ public class JSONParser {
         return ret;
     }
 
-    public void specificComplaint(String compId)
+    public void specificComplaint(final Fragment_ComplaintDetails a,String compId)
     {
         this.compId=compId;
         String specificComplaint="/Complaint_Portal/APIs/specific_complaint.json?compId="+compId;
@@ -647,9 +630,11 @@ public class JSONParser {
                         c.downvotes=complaint.getString("Downvotes");
                         ret.add(c);
 
+                        a.specificComplaintCallBack(true,c);
 
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Loading Specific Complaint", Toast.LENGTH_LONG).show();
+                    a.specificComplaintCallBack(false, null);
                 }
 
             }
@@ -657,6 +642,7 @@ public class JSONParser {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(ct,"Error Loading Institute Specific Complaint",Toast.LENGTH_LONG).show();
+                a.specificComplaintCallBack(false, null);
             }
         });
         q.add(jsonObjectRequest);
@@ -1009,7 +995,7 @@ public class JSONParser {
                     }
                     else
                     {
-                        
+
                     }
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Resolving Complaint", Toast.LENGTH_LONG).show();
