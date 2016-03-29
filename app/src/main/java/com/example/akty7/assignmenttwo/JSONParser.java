@@ -34,23 +34,40 @@ public class JSONParser {
     ArrayList<Comment> retComments;
     ArrayList<Complaint> retComplaints;
     ArrayList<UserIn> retUsers;
-    String main;
-    String login;
-    String logout;
-    String passReset;
-    String newComplaint;
-    String allComplaintsOfUser;
-    String hostelComplaints;
-    String instituteComplaints;
-    String individualComplaints;
-    String specificComplaint;
-    String allComments;
-    String addComment;
-    String upvote;
-    String downvote;
-    String addUser;
-    String getUser;
-    String categoryComplaint;
+    String username;
+    String password;
+    String main="http://10.192.45.89";
+    String login="/Complaint_Portal/default/login.json?userid="+username+"&password="+password;
+    String logout="/Complaint_Portal/default/logout.json";
+    String oldpass;
+    String newpass;
+    String passReset="/Complaint_Portal/APIs/password_reset.json?old_pass="+oldpass+"&new_pass="+newpass;
+    String complaintlevel;
+    String title;
+    String description;
+    String complaintcategory;
+    String newComplaint="/Complaint_Portal/APIs/make_complaint.json?complaint_level="+complaintlevel+"&complaint_title="+title+"&complaint_body="+description+"&categoryID="+complaintcategory;
+    String allComplaintsOfUser="/Complaint_Portal/APIs/list_all_user_complaints.json";
+    String hostelComplaints="/Complaint_Portal/APIs/list_all_hostel_complaints.json";
+    String instituteComplaints="/Complaint_Portal/APIs/list_all_institute_complaints.json";
+    String individualComplaints="/Complaint_Portal/APIs/list_all_personal_complaints.json";
+    String compId;
+    String specificComplaint="/Complaint_Portal/APIs/specific_complaint.json?complaintID="+compId;
+    String allComments="/Complaint_Portal/APIs/get_comments.json?complaintID="+compId;
+    String addComment="/Complaint_Portal/APIs/add_comment.json?complaintID="+compId+"&comment_body="+description;
+    String upvote="/Complaint_Portal/APIs/upvote.json?complaintID="+compId;
+    String downvote="/Complaint_Portal/APIs/downvote.json?complaintID="+compId;
+    String firstName;
+    String lastName;
+    String email;
+    String entrynumber;
+    String category;
+    String hostel;
+    String kerberosid;
+    String addUser="/Complaint_Portal/APIs/addUser.json?firstName="+firstName+"&lastName="+lastName+"&kerberos="+kerberosid+"&Email="+email+"&entryno="+entrynumber+"&passWord="+password+"&category="+category+"&hostel="+hostel;
+    String userid;
+    String getUser="/Complaint_Portal/APIs/getUser.json?user_id="+userid;
+    String categoryComplaint="/Complaint_Portal/APIs/getListOfCategories.json";
     String getNotificationOfComplaint;
     Context ctx;
 
@@ -62,6 +79,8 @@ public class JSONParser {
 
     public boolean login(String username,String password)
     {
+        this.username=username;
+        this.password=password;
         final ArrayList<AuthChecker> ret=new ArrayList<AuthChecker>();
         final Context ct = ctx;
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -142,6 +161,8 @@ public class JSONParser {
 
     public boolean passwordReset(String newPass,String oldPass)
     {
+        this.oldpass=oldPass;
+        this.newpass=newPass;
         final Context ct = ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -179,6 +200,11 @@ public class JSONParser {
 
     public boolean newComplaint(Complaint c)
     {
+        this.complaintlevel = c.complaintlevel;
+        this.title = c.title;
+        this.description=c.description;
+        this.complaintcategory=c.complaintcategory;
+
         final Complaint C=c;
         final Context ct = ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
@@ -399,6 +425,7 @@ public class JSONParser {
 
     public Complaint specificComplaint(String compId)
     {
+        this.compId=compId;
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -438,6 +465,7 @@ public class JSONParser {
 
     public ArrayList<Comment> loadAllComments(String complaintid)
     {
+        this.compId=complaintid;
         final Context ct=ctx;
         final ArrayList<Comment> ret = new ArrayList<Comment>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -476,6 +504,8 @@ public class JSONParser {
 
     public boolean addComment(final String description,final String userid, final String createdat,final String complaintID)
     {
+        this.compId = complaintID;
+        this.description = description;
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -523,6 +553,7 @@ public class JSONParser {
 
     public boolean upvote(String complaintId)
     {
+        this.compId = complaintId;
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -558,6 +589,7 @@ public class JSONParser {
 
     public boolean downvote(String complaintId)
     {
+        this.compId = complaintId;
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -593,6 +625,15 @@ public class JSONParser {
 
     public boolean addUser(final UserIn user)
     {
+        this.hostel = user.hostel;
+        this.category = user.category;
+        this.password = user.password;
+        this.entrynumber = user.entryno;
+        this.email = user.email;
+        this.kerberosid = user.kerberosid;
+        this.lastName = user.lastname;
+        this.firstName = user.firstname;
+
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -611,7 +652,8 @@ public class JSONParser {
                     }
 
                     a.type="User";
-                    a.user.name=user.name;
+                    a.user.firstname=user.firstname;
+                    a.user.lastname=user.lastname;
                     a.user.affiliation=user.affiliation;
                     a.user.category=user.category;
                     a.user.kerberosid=user.kerberosid;
@@ -635,6 +677,7 @@ public class JSONParser {
 
     public UserIn getUser(String id)
     {
+        this.userid = id;
         final Context ct=ctx;
         final ArrayList<UserIn> ret = new ArrayList<UserIn>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -650,7 +693,8 @@ public class JSONParser {
                     }
 
                     JSONObject user = response.getJSONObject("user");
-                    a.name=user.getString("name");
+                    a.firstname=user.getString("firstname");
+                    a.lastname=user.getString("lastname");
                     a.affiliation=user.getString("affiliation");
                     a.category=user.getString("category");
                     a.kerberosid=user.getString("kerberosid");
