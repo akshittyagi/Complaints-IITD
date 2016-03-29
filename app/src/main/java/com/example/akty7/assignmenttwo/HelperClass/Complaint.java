@@ -8,9 +8,9 @@ public class Complaint {
     public String title;
     public String description;
     public String createdat;
-    public String complaintstatus;
+    public boolean complaintstatus;
     public String isUpvotedByMe; //KARAN
-    //TODO: personal:0 hostel:1 institute:2
+    //TODO: personal:1 hostel:2 institute:3
     public String complaintcategory;
     public String complaintlevel;
     public String upvotes;

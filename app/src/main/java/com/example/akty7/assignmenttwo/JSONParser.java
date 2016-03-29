@@ -439,21 +439,21 @@ public class JSONParser {
 
                 try {
                     
-                    JSONArray complaints = response.getJSONArray("complaints");
+                    JSONArray complaints = response.getJSONArray("user_complaints");
                     for(int i=0;i<complaints.length();i++)
                     {
                         Complaint c = new Complaint();
                         JSONObject complaint = (JSONObject) complaints.get(i);
-                        c.compId=complaint.getString("compId");
-                        c.filedByUserId=complaint.getString("filedByUserId");
+                        c.compId=complaint.getString("id");
+                        c.filedByUserId=complaint.getString("UserID");
                         c.title=complaint.getString("title");
-                        c.description=complaint.getString("description");
-                        c.createdat=complaint.getString("createdat");
-                        c.complaintstatus=complaint.getString("complaintstatus");
-                        c.complaintcategory=complaint.getString("complaintcategory");
-                        c.complaintlevel=complaint.getString("complaintlevel");
-                        c.upvotes=complaint.getString("upvotes");
-                        c.downvotes=complaint.getString("downvotes");
+                        c.description=complaint.getString("body");
+                        c.createdat=complaint.getString("CreatedAt");
+                        c.complaintstatus=complaint.getBoolean("ComplaintStatus");
+                        c.complaintcategory=complaint.getString("ComplaintCategoryID");
+                        c.complaintlevel=complaint.getString("ComplaintLevelID");
+                        c.upvotes=complaint.getString("Upvotes");
+                        c.downvotes=complaint.getString("Downvotes");
                         ret.add(c);
                     }
 
@@ -474,33 +474,47 @@ public class JSONParser {
 
     }
 
-    public ArrayList<Complaint> listOfHostelComplaints(Fragment_ComplaintsList fragment_complaintsList)
+    public class Pair<Complaint,String>
+    {
+        public Complaint complaint;
+        public String hostel;
+    }
+
+
+    public void listOfHostelComplaints(final Fragment_ComplaintsList fragment_complaintsList)
     {
         final Context ct=ctx;
-        final ArrayList<Complaint> ret = new ArrayList<Complaint>();
+        final ArrayList<Pair<Complaint,String>> ret = new ArrayList<Pair<Complaint,String>>();
         RequestQueue q = Volley.newRequestQueue(ctx);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+hostelComplaints, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response){
 
                 try {
-                    JSONArray complaints = response.getJSONArray("complaints");
+                    JSONArray complaints = response.getJSONArray("hostel_complaints");
+                    JSONArray hostels = response.getJSONArray("user_hostel");
                     for(int i=0;i<complaints.length();i++)
                     {
                         Complaint c = new Complaint();
                         JSONObject complaint = (JSONObject) complaints.get(i);
-                        c.compId=complaint.getString("compId");
-                        c.filedByUserId=complaint.getString("filedByUserId");
+                        c.compId=complaint.getString("id");
+                        c.filedByUserId=complaint.getString("UserID");
                         c.title=complaint.getString("title");
-                        c.description=complaint.getString("description");
-                        c.createdat=complaint.getString("createdat");
-                        c.complaintstatus=complaint.getString("complaintstatus");
-                        c.complaintcategory=complaint.getString("complaintcategory");
-                        c.complaintlevel=complaint.getString("complaintlevel");
-                        c.upvotes=complaint.getString("upvotes");
-                        c.downvotes=complaint.getString("downvotes");
-                        ret.add(c);
+                        c.description=complaint.getString("body");
+                        c.createdat=complaint.getString("CreatedAt");
+                        c.complaintstatus=complaint.getBoolean("ComplaintStatus");
+                        c.complaintcategory=complaint.getString("ComplaintCategoryID");
+                        c.complaintlevel=complaint.getString("ComplaintLevelID");
+                        c.upvotes=complaint.getString("Upvotes");
+                        c.downvotes=complaint.getString("Downvotes");
+                        String hostel = (String)hostels.get(i);
+                        Pair<Complaint,String> p = new Pair<Complaint,String>();
+                        p.complaint = c;
+                        p.hostel = hostel;
+                        ret.add(p);
                     }
+
+                    fragment_complaintsList.getHostelComplaintsCallBack(ret);
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Loading Hostel Complaint", Toast.LENGTH_LONG).show();
                 }
@@ -513,10 +527,10 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret;
+
     }
 
-    public ArrayList<Complaint> listOfInstituteComplaints(Fragment_ComplaintsList fragment_complaintsList)
+    public ArrayList<Complaint> listOfInstituteComplaints(final Fragment_ComplaintsList fragment_complaintsList)
     {
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
@@ -526,23 +540,26 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-                    JSONArray complaints = response.getJSONArray("complaints");
+                    JSONArray complaints = response.getJSONArray("institute_complaints");
                     for(int i=0;i<complaints.length();i++)
                     {
+
                         Complaint c = new Complaint();
                         JSONObject complaint = (JSONObject) complaints.get(i);
-                        c.compId=complaint.getString("compId");
-                        c.filedByUserId=complaint.getString("filedByUserId");
+                        c.compId=complaint.getString("id");
+                        c.filedByUserId=complaint.getString("UserID");
                         c.title=complaint.getString("title");
-                        c.description=complaint.getString("description");
-                        c.createdat=complaint.getString("createdat");
-                        c.complaintstatus=complaint.getString("complaintstatus");
-                        c.complaintcategory=complaint.getString("complaintcategory");
-                        c.complaintlevel=complaint.getString("complaintlevel");
-                        c.upvotes=complaint.getString("upvotes");
-                        c.downvotes=complaint.getString("downvotes");
+                        c.description=complaint.getString("body");
+                        c.createdat=complaint.getString("CreatedAt");
+                        c.complaintstatus=complaint.getBoolean("ComplaintStatus");
+                        c.complaintcategory=complaint.getString("ComplaintCategoryID");
+                        c.complaintlevel=complaint.getString("ComplaintLevelID");
+                        c.upvotes=complaint.getString("Upvotes");
+                        c.downvotes=complaint.getString("Downvotes");
                         ret.add(c);
                     }
+
+                    fragment_complaintsList.getComplaintsCallBack(ret);
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Loading Institute Complaint", Toast.LENGTH_LONG).show();
                 }
@@ -558,7 +575,7 @@ public class JSONParser {
         return ret;
     }
 
-    public ArrayList<Complaint> listOfPersonalComplaints()
+    public ArrayList<Complaint> listOfPersonalComplaints(final Fragment_ComplaintsList a)
     {
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
@@ -568,23 +585,27 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-                    JSONArray complaints = response.getJSONArray("complaints");
+                    JSONArray complaints = response.getJSONArray("personal_complaints");
                     for(int i=0;i<complaints.length();i++)
                     {
+
                         Complaint c = new Complaint();
                         JSONObject complaint = (JSONObject) complaints.get(i);
-                        c.compId=complaint.getString("compId");
-                        c.filedByUserId=complaint.getString("filedByUserId");
+                        c.compId=complaint.getString("id");
+                        c.filedByUserId=complaint.getString("UserID");
                         c.title=complaint.getString("title");
-                        c.description=complaint.getString("description");
-                        c.createdat=complaint.getString("createdat");
-                        c.complaintstatus=complaint.getString("complaintstatus");
-                        c.complaintcategory=complaint.getString("complaintcategory");
-                        c.complaintlevel=complaint.getString("complaintlevel");
-                        c.upvotes=complaint.getString("upvotes");
-                        c.downvotes=complaint.getString("downvotes");
+                        c.description=complaint.getString("body");
+                        c.createdat=complaint.getString("CreatedAt");
+                        c.complaintstatus=complaint.getBoolean("ComplaintStatus");
+                        c.complaintcategory=complaint.getString("ComplaintCategoryID");
+                        c.complaintlevel=complaint.getString("ComplaintLevelID");
+                        c.upvotes=complaint.getString("Upvotes");
+                        c.downvotes=complaint.getString("Downvotes");
                         ret.add(c);
                     }
+
+                    a.getComplaintsCallBack(ret);
+
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Loading Personal Complaint", Toast.LENGTH_LONG).show();
                 }
@@ -600,10 +621,10 @@ public class JSONParser {
         return ret;
     }
 
-    public Complaint specificComplaint(String compId)
+    public void specificComplaint(String compId)
     {
         this.compId=compId;
-        String specificComplaint="/Complaint_Portal/APIs/specific_complaint.json?complaintID="+compId;
+        String specificComplaint="/Complaint_Portal/APIs/specific_complaint.json?compId="+compId;
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
         RequestQueue q = Volley.newRequestQueue(ctx);
@@ -614,17 +635,18 @@ public class JSONParser {
                 try {
                         Complaint c = new Complaint();
                         JSONObject complaint = response.getJSONObject("complaint");
-                        c.compId=complaint.getString("compId");
-                        c.filedByUserId=complaint.getString("filedByUserId");
+                        c.compId=complaint.getString("id");
+                        c.filedByUserId=complaint.getString("UserID");
                         c.title=complaint.getString("title");
-                        c.description=complaint.getString("description");
-                        c.createdat=complaint.getString("createdat");
-                        c.complaintstatus=complaint.getString("complaintstatus");
-                        c.complaintcategory=complaint.getString("complaintcategory");
-                        c.complaintlevel=complaint.getString("complaintlevel");
-                        c.upvotes=complaint.getString("upvotes");
-                        c.downvotes=complaint.getString("downvotes");
+                        c.description=complaint.getString("body");
+                        c.createdat=complaint.getString("CreatedAt");
+                        c.complaintstatus=complaint.getBoolean("ComplaintStatus");
+                        c.complaintcategory=complaint.getString("ComplaintCategoryID");
+                        c.complaintlevel=complaint.getString("ComplaintLevelID");
+                        c.upvotes=complaint.getString("Upvotes");
+                        c.downvotes=complaint.getString("Downvotes");
                         ret.add(c);
+
 
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Loading Specific Complaint", Toast.LENGTH_LONG).show();
@@ -638,7 +660,6 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret.get(0);
     }
 
     public ArrayList<Comment> loadAllComments(String complaintid)
@@ -971,7 +992,37 @@ public class JSONParser {
         return ret;
     }
 
-    public void removeupvote(String comp_id) {
+    public void setResolved(String comp_id)
+    {
+        String setresolved = "/Complaint_Portal/APIs/set_resolved.json?complaintid="+comp_id;
+        final Context ct=ctx;
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+setresolved, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    boolean succ = response.getBoolean("success");
+                    if(succ)
+                    {
+
+                    }
+                    else
+                    {
+                        
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Resolving Complaint", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error resolving complaint",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
 
     }
 }
