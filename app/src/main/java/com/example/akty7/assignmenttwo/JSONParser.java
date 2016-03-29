@@ -618,7 +618,7 @@ public class JSONParser {
                 try {
                         Complaint c = new Complaint();
                         c.compId=compId;
-                        c.filedByUserId=complaint.getString("filedByUserID");
+                        c.filedByUserId=complaint.getString("filedByUserId");
                         c.title=complaint.getString("title");
                         c.description=complaint.getString("description");
                         c.createdat=complaint.getString("createdat");
