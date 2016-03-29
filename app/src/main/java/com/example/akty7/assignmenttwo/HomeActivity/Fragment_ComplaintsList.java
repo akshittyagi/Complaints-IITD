@@ -39,7 +39,7 @@ public class Fragment_ComplaintsList extends Fragment {
         myac_jp = new JSONParser(getActivity().getApplicationContext());
 
         if(domain == "personal"){
-            myac_jp.listOfUserAllComplaints(Fragment_ComplaintsList.this);
+            myac_jp.listOfPersonalComplaints(Fragment_ComplaintsList.this);
         }
         else if(domain == "hostel"){
             myac_jp.listOfHostelComplaints(Fragment_ComplaintsList.this);
@@ -68,6 +68,15 @@ public class Fragment_ComplaintsList extends Fragment {
 
     public void getComplaintsCallBack(ArrayList<Complaint> arr){
         mAdapter = new ComplaintRecyclerViewAdapter(arr);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public void getHostelComplaintsCallBack(ArrayList<JSONParser.Pair<Complaint,String>> arr){
+        ArrayList<Complaint> arrdash = new ArrayList<>();
+        for(JSONParser.Pair<Complaint,String> x : arr){
+            arrdash.add(x.complaint);
+        }
+        mAdapter = new ComplaintRecyclerViewAdapter(arrdash);
         mRecyclerView.setAdapter(mAdapter);
     }
 

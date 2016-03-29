@@ -44,7 +44,7 @@ public class AuthorityComplaintsRecyclerViewAdapter extends RecyclerView.Adapter
 
       //  holder.creator.setText(jp.getUser(comp.filedByUserId).name);
         holder.creator.setText(comp.filedByUserId);
-        if(comp.complaintstatus.equals("true")) holder.status.setImageResource(R.drawable.tick);
+        if(comp.complaintstatus) holder.status.setImageResource(R.drawable.tick);
         else holder.status.setImageResource(R.drawable.cross);
         holder.date.setText(comp.createdat);
         holder.title.setText(comp.title);
