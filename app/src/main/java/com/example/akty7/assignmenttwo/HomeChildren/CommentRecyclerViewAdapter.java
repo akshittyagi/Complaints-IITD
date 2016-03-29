@@ -39,28 +39,30 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
     public void onBindViewHolder(DataObjectHolder holder, int position) {
 
         final Comment comm = mDataset.get(position);
+        if(comm !=null) {
+            //  holder.creator.setText(jp.getUser(comp.filedByUserId).name);
+            holder.creator.setText(comm.createdByUserId);
+            holder.desc.setText(comm.description);
+            holder.date.setText(comm.createdat);
+            holder.thumb.setText(comm.createdByUserId.charAt(0));
 
-        //  holder.creator.setText(jp.getUser(comp.filedByUserId).name);
-        holder.creator.setText(comm.createdByUserId);
-        holder.desc.setText(comm.description);
-        holder.date.setText(comm.createdat);
-        holder.thumb.setText(comm.createdByUserId.charAt(0));
+            holder.v.setOnClickListener(new View.OnClickListener() {
 
-        holder.v.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                alertDialogBuilder.setMessage(comm.description);
-                alertDialogBuilder.setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {  }
-                        });
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-            }
-        });
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                    alertDialogBuilder.setMessage(comm.description);
+                    alertDialogBuilder.setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                }
+                            });
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }
+            });
+        }
     }
 
     @Override

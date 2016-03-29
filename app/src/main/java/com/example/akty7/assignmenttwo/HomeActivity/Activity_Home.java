@@ -22,11 +22,14 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.example.akty7.assignmenttwo.Activity_Login;
 import com.example.akty7.assignmenttwo.HelperClass.UserIn;
+import com.example.akty7.assignmenttwo.HomeChildren.Activity_AddComp;
+import com.example.akty7.assignmenttwo.HomeChildren.Activity_Complaint;
 import com.example.akty7.assignmenttwo.JSONParser;
 import com.example.akty7.assignmenttwo.R;
 
@@ -71,6 +74,31 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
 
         tabLayout = (TabLayout) findViewById(R.id.tabs_home);
         tabLayout.setupWithViewPager(viewPager);
+
+         findViewById(R.id.menu_item_hostel).setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 Intent intent = new Intent(context, Activity_AddComp.class);
+                 startActivity(intent);
+             }
+         });
+
+        findViewById(R.id.menu_item_insti).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,Activity_AddComp.class);
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.menu_item_personal).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,Activity_AddComp.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
