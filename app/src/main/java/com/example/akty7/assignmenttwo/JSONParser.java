@@ -102,6 +102,7 @@ public class JSONParser {
 
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Signing in", Toast.LENGTH_LONG).show();
+                    a.loginFailed();
                 }
 
             }
@@ -109,6 +110,7 @@ public class JSONParser {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(ct,"Error Signing in",Toast.LENGTH_LONG).show();
+                a.loginFailed();
             }
         });
         q.add(jsonObjectRequest);
