@@ -1,12 +1,15 @@
 package com.example.akty7.assignmenttwo.HomeChildren;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.akty7.assignmenttwo.Activity_Login;
 import com.example.akty7.assignmenttwo.HelperClass.Complaint;
 import com.example.akty7.assignmenttwo.JSONParser;
 import com.example.akty7.assignmenttwo.R;
@@ -37,5 +40,15 @@ public class Activity_AddComp extends AppCompatActivity {
         });
 
 
+    }
+
+    public void logoutCallBack(boolean logoutSuccess) {
+        if (logoutSuccess) {
+            startActivity(new Intent(Activity_AddComp.this, Activity_Login.class));
+            Activity_AddComp.this.finish();
+        } else {
+            Snackbar.make(findViewById(R.id.drawer_layout_home), "Logout Failed", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        }
     }
 }

@@ -1,11 +1,14 @@
 package com.example.akty7.assignmenttwo.AdminActivities;
 
+import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
+import com.example.akty7.assignmenttwo.Activity_Login;
 import com.example.akty7.assignmenttwo.R;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -58,6 +61,16 @@ public class Activity_UserManagement extends AppCompatActivity {
             searchView.closeSearch();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    public void logoutCallBack(boolean logoutSuccess) {
+        if (logoutSuccess) {
+            startActivity(new Intent(Activity_UserManagement.this, Activity_Login.class));
+            Activity_UserManagement.this.finish();
+        } else {
+          //  Snackbar.make(findViewById(R.id.drawer_layout_home), "Logout Failed", Snackbar.LENGTH_SHORT)
+          //          .setAction("Action", null).show();
         }
     }
 }

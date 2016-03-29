@@ -140,7 +140,7 @@ public class Activity_Complaint extends AppCompatActivity implements NavigationV
         int id = item.getItemId();
 
         if (id == R.id.action_logout) {
-            jp.logoutFromComplaint();
+            jp.logoutFromComplaint(Activity_Complaint.this);
         }
         return super.onOptionsItemSelected(item);
     }

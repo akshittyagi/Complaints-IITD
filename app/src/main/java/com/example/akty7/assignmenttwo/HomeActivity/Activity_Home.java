@@ -209,7 +209,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         if (success) {
             Snackbar.make(findViewById(R.id.drawer_layout_home), "Success! Logging Out", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
-            jp.logoutFromHome();
+            jp.logoutFromHome(Activity_Home.this);
         } else {
             Snackbar.make(findViewById(R.id.drawer_layout_home), "Sorry! Wrong Password", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
