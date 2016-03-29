@@ -144,15 +144,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         int id = item.getItemId();
 
         if (id == R.id.action_logout) {
-            Boolean logoutSuccess = jp.logout();
-            if (logoutSuccess) {
-                startActivity(new Intent(Activity_Home.this, Activity_Login.class));
-                Activity_Home.this.finish();
-            } else {
-                Snackbar.make(findViewById(R.id.drawer_layout_home), "Logout Failed", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show();
-            }
-
+            jp.logoutFromHome(Activity_Home.this);
         }
         if (id == R.id.action_changepw) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -171,32 +163,13 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (newPass.getText().equals(newPassConfirm.getText())) {
-                        boolean success = jp.passwordReset(newPass.getText().toString(), oldPass.getText().toString());
-                        if (success) {
-                            dialog.dismiss();
-                            Snackbar.make(findViewById(R.id.drawer_layout_home), "Success! Logging Out", Snackbar.LENGTH_SHORT)
-                                    .setAction("Action", null).show();
-                            Boolean logoutSuccess = jp.logout();
-                            if (logoutSuccess) {
-                                startActivity(new Intent(Activity_Home.this, Activity_Login.class));
-                                Activity_Home.this.finish();
-                            } else {
-                                Snackbar.make(findViewById(R.id.drawer_layout_home), "Logout Failed", Snackbar.LENGTH_SHORT)
-                                        .setAction("Action", null).show();
-                            }
-                        } else {
-                            dialog.dismiss();
-                            Snackbar.make(findViewById(R.id.drawer_layout_home), "Sorry! Wrong Password", Snackbar.LENGTH_SHORT)
-                                    .setAction("Action", null).show();
-                        }
+                        jp.passwordReset(newPass.getText().toString(), oldPass.getText().toString());
+                        dialog.dismiss();
                     } else {
                         dialog.dismiss();
                         Snackbar.make(findViewById(R.id.drawer_layout_home), "Passwords do not match!", Snackbar.LENGTH_SHORT)
                                 .setAction("Action", null).show();
-
                     }
-
-
                 }
             });
 
@@ -222,5 +195,24 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
+    public void logoutCallBack(boolean logoutSuccess) {
+        if (logoutSuccess) {
+            startActivity(new Intent(Activity_Home.this, Activity_Login.class));
+            Activity_Home.this.finish();
+        } else {
+            Snackbar.make(findViewById(R.id.drawer_layout_home), "Logout Failed", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        }
+    }
 
+    public void passChangedCallBack(boolean success){
+        if (success) {
+            Snackbar.make(findViewById(R.id.drawer_layout_home), "Success! Logging Out", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+            jp.logoutFromHome(Activity_Home.this);
+        } else {
+            Snackbar.make(findViewById(R.id.drawer_layout_home), "Sorry! Wrong Password", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        }
+    }
 }

@@ -131,7 +131,7 @@ public class Activity_Complaint extends AppCompatActivity implements NavigationV
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
+        getMenuInflater().inflate(R.menu.menu_complaint, menu);
         return true;
     }
 
@@ -140,71 +140,7 @@ public class Activity_Complaint extends AppCompatActivity implements NavigationV
         int id = item.getItemId();
 
         if (id == R.id.action_logout) {
-            Boolean logoutSuccess = jp.logout();
-            if (logoutSuccess) {
-                startActivity(new Intent(Activity_Complaint.this, Activity_Login.class));
-                Activity_Complaint.this.finish();
-            } else {
-                Snackbar.make(findViewById(R.id.drawer_layout_complaint), "Logout Failed", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show();
-            }
-
-        }
-        if (id == R.id.action_changepw) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Change Password");
-            final EditText oldPass = new EditText(context);
-            final EditText newPass = new EditText(context);
-            final EditText newPassConfirm = new EditText(context);
-            oldPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            newPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            newPassConfirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            builder.setView(oldPass);
-            builder.setView(newPass);
-            builder.setView(newPassConfirm);
-            // Set up the buttons
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (newPass.getText().equals(newPassConfirm.getText())) {
-                        boolean success = jp.passwordReset(newPass.getText().toString(), oldPass.getText().toString());
-                        if (success) {
-                            dialog.dismiss();
-                            Snackbar.make(findViewById(R.id.drawer_layout_complaint), "Success! Logging Out", Snackbar.LENGTH_SHORT)
-                                    .setAction("Action", null).show();
-                            Boolean logoutSuccess = jp.logout();
-                            if (logoutSuccess) {
-                                startActivity(new Intent(Activity_Complaint.this, Activity_Login.class));
-                                Activity_Complaint.this.finish();
-                            } else {
-                                Snackbar.make(findViewById(R.id.drawer_layout_complaint), "Logout Failed", Snackbar.LENGTH_SHORT)
-                                        .setAction("Action", null).show();
-                            }
-                        } else {
-                            dialog.dismiss();
-                            Snackbar.make(findViewById(R.id.drawer_layout_complaint), "Sorry! Wrong Password", Snackbar.LENGTH_SHORT)
-                                    .setAction("Action", null).show();
-                        }
-                    } else {
-                        dialog.dismiss();
-                        Snackbar.make(findViewById(R.id.drawer_layout_complaint), "Passwords do not match!", Snackbar.LENGTH_SHORT)
-                                .setAction("Action", null).show();
-
-                    }
-
-
-                }
-            });
-
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            jp.logoutFromComplaint(Activity_Complaint.this);
         }
         return super.onOptionsItemSelected(item);
     }
