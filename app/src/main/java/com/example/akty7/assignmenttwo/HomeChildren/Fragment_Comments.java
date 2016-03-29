@@ -60,7 +60,7 @@ public class Fragment_Comments extends Fragment {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        jp.addComment(Fragment_Comments.class,input.getText().toString(), compid);
+                        jp.addComment(Fragment_Comments.this,input.getText().toString(), compid);
 
                     }
                 });
@@ -81,7 +81,7 @@ public class Fragment_Comments extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(rootView.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        jp.loadAllComments(compid);
+        jp.loadAllComments(Fragment_Comments.this,compid);
         return rootView;
     }
 
@@ -97,7 +97,7 @@ public class Fragment_Comments extends Fragment {
         }else{
             Snackbar.make(rootView.findViewById(R.id.comment_recycler_view), "Done! Added Comment", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
-            jp.loadAllComments(compid);
+            jp.loadAllComments(Fragment_Comments.this,compid);
         }
 
     }

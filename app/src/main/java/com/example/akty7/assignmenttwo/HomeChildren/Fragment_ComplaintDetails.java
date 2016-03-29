@@ -45,7 +45,7 @@ public class Fragment_ComplaintDetails extends Fragment {
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jp.downvote(compid);
+                jp.downvote(Fragment_ComplaintDetails.this,compid);
             }
         });
 
@@ -54,7 +54,7 @@ public class Fragment_ComplaintDetails extends Fragment {
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jp.setResolved(compid);
+                jp.setResolved(Fragment_ComplaintDetails.this,compid);
             }
         });
 
@@ -77,8 +77,16 @@ public class Fragment_ComplaintDetails extends Fragment {
     }
 
     public void upvoteCallBack(){
-
+        ((FloatingActionButton) rootView.findViewById(R.id.comp_upvote_fab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_star));
     }
+    public void downVoteCallBack(){
+        ((FloatingActionButton) rootView.findViewById(R.id.comp_upvote_fab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_image_timer_auto));
+        ((FloatingActionButton) rootView.findViewById(R.id.comp_downvote_fab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_close));
+    }
+    public void resolvedCallBack(){
+        ((FloatingActionButton) rootView.findViewById(R.id.comp_resolve_fab)).setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_action_done));
+    }
+
 
 
 }

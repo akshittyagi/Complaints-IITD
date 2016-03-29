@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.example.akty7.assignmenttwo.Activity_Login;
+import com.example.akty7.assignmenttwo.HelperClass.UserIn;
 import com.example.akty7.assignmenttwo.JSONParser;
 import com.example.akty7.assignmenttwo.R;
 
@@ -40,6 +41,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
     JSONParser jp;
     Context context;
     String userid;
+    UserIn user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         context = this;
         bundle = getIntent().getExtras();
         userid = bundle.getString("userid");
+        jp.getUser(Activity_Home.this,userid);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_home);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_home);
@@ -59,6 +62,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_home);
+        if()
         navigationView.setNavigationItemSelectedListener(this);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager_home);
@@ -221,5 +225,9 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
             Snackbar.make(findViewById(R.id.drawer_layout_home), "Sorry! Wrong Password", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
+    }
+
+    public void getUserCallBack(){
+
     }
 }
