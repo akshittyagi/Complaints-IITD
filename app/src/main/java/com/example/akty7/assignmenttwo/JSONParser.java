@@ -585,7 +585,7 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-                    JSONArray complaints = response.getJSONArray("complaints");
+                    JSONArray complaints = response.getJSONArray("personal_complaints");
                     for(int i=0;i<complaints.length();i++)
                     {
 
