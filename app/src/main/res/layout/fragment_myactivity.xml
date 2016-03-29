@@ -39,7 +39,7 @@
             android:id="@+id/menu_item_personal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_camera"
+            android:src="@drawable/ic_image_timer_auto"
             fab:fab_size="mini"
             fab:fab_label="Personal" />
 
@@ -47,7 +47,7 @@
             android:id="@+id/menu_item_hostel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_camera"
+            android:src="@drawable/ic_social_domain"
             fab:fab_size="mini"
             fab:fab_label="Hostel Level" />
 
@@ -55,7 +55,7 @@
             android:id="@+id/menu_item_insti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_camera"
+            android:src="@drawable/ic_action_account_balance"
             fab:fab_size="mini"
             fab:fab_label="Institute Level" />
 
