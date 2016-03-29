@@ -62,7 +62,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_home);
-        if()
+
         navigationView.setNavigationItemSelectedListener(this);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager_home);
@@ -227,7 +227,7 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         }
     }
 
-    public void getUserCallBack(){
+    public void getUserCallBack(String category){
 
     }
 }

@@ -85,7 +85,35 @@ public class JSONParser {
         this.ctx=ctx;
     }
 
+    public String func(String category)
+    {
+        if(category.equals("0"))
+        {
+            return "admin";
+        }
+        else if(category.equals("1"))
+        {
+            return "student";
+        }
+        else if(category.equals("2"))
+        {
+            return "dean";
+        }
+        else if(category.equals("3"))
+        {
+            return "maintenance";
+        }
+        else if(category.equals("4"))
+        {
+            return "water";
+        }
+        else if(category.equals("5"))
+        {
+            return "electricity";
+        }
 
+        return "student";
+    }
     public void login(final Activity_Login a,String username,String password)
     {
         this.username=username;
@@ -373,7 +401,7 @@ public class JSONParser {
 
     }
 
-    public boolean newComplaint(final Activity_AddComp a,Complaint c)
+    public void newComplaint(final Activity_AddComp a,Complaint c)
     {
         this.complaintlevel = c.complaintlevel;
         this.title = c.title;
@@ -408,8 +436,6 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-
-        return ret.get(0).isSuccessful;
     }
 
     public void listOfUserAllComplaints(final Fragment_ComplaintsList a)
@@ -514,7 +540,7 @@ public class JSONParser {
 
     }
 
-    public ArrayList<Complaint> listOfInstituteComplaints(final Fragment_ComplaintsList fragment_complaintsList)
+    public void listOfInstituteComplaints(final Fragment_ComplaintsList fragment_complaintsList)
     {
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
@@ -556,10 +582,10 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret;
+
     }
 
-    public ArrayList<Complaint> listOfPersonalComplaints(final Fragment_ComplaintsList a)
+    public void listOfPersonalComplaints(final Fragment_ComplaintsList a)
     {
         final Context ct=ctx;
         final ArrayList<Complaint> ret = new ArrayList<Complaint>();
@@ -602,7 +628,6 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret;
     }
 
     public void specificComplaint(final Fragment_ComplaintDetails a, final String compId)
@@ -754,7 +779,7 @@ public class JSONParser {
         q.add(jsonObjectRequest);
     }
 
-    public boolean downvote(final Fragment_ComplaintDetails a,String complaintId)
+    public void downvote(final Fragment_ComplaintDetails a,String complaintId)
     {
         this.compId = complaintId;
         String downvote="/Complaint_Portal/APIs/downvote.json?complaintid="+compId;
@@ -781,13 +806,43 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret.get(0).isSuccessful;
+
+    }
+
+    public String func1(String category)
+    {
+         if(category.equals("admin"))
+         {
+             return "0";
+         }
+         else if(category.equals("student"))
+         {
+             return "1";
+         }
+         else if(category.equals("dean"))
+         {
+             return "2";
+         }
+         else if(category.equals("maintenance"))
+         {
+             return "3";
+         }
+         else if(category.equals("water"))
+         {
+             return "4";
+         }
+         else if(category.equals("electricity"))
+         {
+             return "5";
+         }
+
+            return "1";
     }
 
     public void addUser(final Activity_UserManagement a,final UserIn user)
     {
         this.hostel = user.hostel;
-        this.category = user.category;
+        this.category = func1(user.category);
         this.password = user.password;
         this.entrynumber = user.entryno;
         this.email = user.email;
@@ -820,7 +875,7 @@ public class JSONParser {
         q.add(jsonObjectRequest);
       }
 
-    public UserIn getUser(final Activity_UserManagement act,String id)
+    public void getUser(final Activity_UserManagement act,String id)
     {
         this.userid = id;
         String getUser="/Complaint_Portal/APIs/getUser.json?id="+id;
@@ -837,7 +892,7 @@ public class JSONParser {
                     JSONObject user = response.getJSONObject("user");
                     a.firstname=user.getString("firstName");
                     a.lastname=user.getString("lastName");
-                    a.category=user.getString("category");
+                    a.category = func(user.getString("category"));
                     a.kerberosid=user.getString("kerberosID");
                     a.password=user.getString("password");
                     act.getUserCallBack(a);
@@ -855,10 +910,49 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret.get(0);
+
     }
 
-    public ArrayList<String> listOfCategories()
+    public void getUser(final Activity_Home act,String id)
+    {
+        this.userid = id;
+        String getUser="/Complaint_Portal/APIs/getUser.json?id="+id;
+
+        final Context ct=ctx;
+        final ArrayList<UserIn> ret = new ArrayList<UserIn>();
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+getUser, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+                    UserIn a = new UserIn();
+                    JSONObject user = response.getJSONObject("user");
+                    a.firstname=user.getString("firstName");
+                    a.lastname=user.getString("lastName");
+                    a.category = func(user.getString("category"));
+                    a.kerberosid=user.getString("kerberosID");
+                    a.password=user.getString("password");
+                    act.getUserCallBack(a.category);
+
+
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Fetching user", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error fetching user",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+
+    }
+
+
+    public void listOfCategories()
     {
         final Context ct=ctx;
         final ArrayList<String> ret = new ArrayList<String>();
@@ -872,7 +966,7 @@ public class JSONParser {
                     for(int i=0;i<categs.length();i++)
                     {
                         String category = (String)categs.get(i);
-                        ret.add(category);
+                        ret.add(func(category));
                     }
 
                     //callback
@@ -889,7 +983,6 @@ public class JSONParser {
         });
         q.add(jsonObjectRequest);
 
-        return ret;
     }
 
     public ArrayList<Notif> getNotifs()
@@ -944,7 +1037,7 @@ public class JSONParser {
                     a.firstname=user.getString("first_name");
                     a.lastname=user.getString("last_name");
                     a.entryno=user.getString("entry_no");
-                    a.affiliation=user.getString("type_");
+                    a.category = func(user.getString("type_"));
                     //Callback required
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Fetching user", Toast.LENGTH_LONG).show();
