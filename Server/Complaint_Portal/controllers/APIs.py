@@ -52,6 +52,19 @@ def list_all_institute_complaints():
         institute_complaints = db(db.Complaint.ComplaintLevelID==3).select(orderby=~db.Complaint.CreatedAt)
         return dict(institute_complaints=institute_complaints)
 
+def get_authority_complaints():
+    if auth.is_logged_in():
+        authority_category = int(request.vars["category"])
+        if authority_category == 2:
+            complaints = db(db.Complaint.ComplaintCategoryID==4)
+        elif authority_category == 3:
+            complaints = db(db.Complaint.ComplaintCategoryID==1)
+        elif authority_category == 4:
+            complaints = db(db.Complaint.ComplaintCategoryID==2)
+        elif authority_category == 5:
+            complaints = db(db.Complaint.ComplaintCategoryID==3)
+        return dict(complaints=complaints)
+
 def get_comments():
     if auth.is_logged_in():
         complaintID = int(request.vars["complaintid"])
@@ -86,7 +99,7 @@ def downvote():
             return dict(success=False)
 
 def addUser():
-    if auth.is_logged_in:
+    if auth.is_logged_in():
         admin = db.users(auth.user.id)
         if admin.type_ == 0:
             firstName = str(request.vars["firstName"]).strip()
@@ -107,14 +120,29 @@ def getUser():
     user = db.users(user_id)
     return dict(firstName=user.first_name, lastName=user.last_name, kerberosID=user.username, password=user.password, category=user.type_, hostel=user.Hostel)
 
+def getCurrentUser():
+    if auth.is_logged_in():
+        user = db.users(auth.user.id)
+        return dict(user=user)
+
+def removeUser():
+    if auth.is_logged_in():
+        admin = db.users(auth.user.id)
+        if admin.type_ == 0:
+            id = int(request.vars["id"])
+            db(db.users.id == id).delete()
+            return dict(success=True)
+        else:
+            return dict(success=False)
+
 def getListOfCategories():
     list_of_categories = []
     for categories in db().select(db.Complaint_Category.ALL):
         list_of_categories.append(categories.Category_Name)
-    return list_of_categories
+    return dict(list_of_categories=list_of_categories)
 
 def set_resolved():
-    if auth.is_logged_in:
+    if auth.is_logged_in():
         admin = db.users(auth.user.id)
         if admin.type_ == 0:
             complaint_id = int(request.vars["complaintid"])

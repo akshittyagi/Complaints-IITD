@@ -45,7 +45,7 @@ def list_all_hostel_complaints():
         user_hostel=[]
         for complaint in hostel_complaints:
             user_hostel.append((db.users(complaint.UserID)).Hostel)
-        return dict(compId=complaint_id, filedByUserId=complaint_user, title=complaint_title, description=complaint_body, createdat=complaint_time, complaintstatus=complaint_status, complaintcategory=complaint_category, complaintlevel=0, upvotes=complaint_upvotes, downvotes=complaint_downvotes, hostels=user_hostel)
+        return dict(hostel_complaints=hostel_complaints, user_hostel=user_hostel)
 
 def list_all_institute_complaints():
     if auth.is_logged_in():
@@ -107,11 +107,26 @@ def getUser():
     user = db.users(user_id)
     return dict(firstName=user.first_name, lastName=user.last_name, kerberosID=user.username, password=user.password, category=user.type_, hostel=user.Hostel)
 
+def getCurrentUser():
+    if auth.is_logged_in:
+        user = db.users(auth.user.id)
+        return dict(user=user)
+
+def removeUser():
+    if auth.is_logged_in:
+        admin = db.users(auth.user.id)
+        if admin.type_ == 0:
+            id = int(request.vars["id"])
+            db(db.users.id == id).delete()
+            return dict(success=True)
+        else:
+            return dict(success=False)
+
 def getListOfCategories():
     list_of_categories = []
     for categories in db().select(db.Complaint_Category.ALL):
         list_of_categories.append(categories.Category_Name)
-    return list_of_categories
+    return dict(list_of_categories=list_of_categories)
 
 def set_resolved():
     if auth.is_logged_in:
