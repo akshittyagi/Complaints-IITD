@@ -1,7 +1,4 @@
 {{extend 'layout.html'}}
-{{ for level in database:}}
-<div class="well">
-    
-    {{=A(level.Level_Name.title(),_class="btn btn-large btn-primary",_style="width=50%",_href=URL('complaints_by_level',args=level.Level_Name))}}
-</div>
-{{pass}}
+<h1>
+     Welcome to Complaint_Portal!
+</h1>

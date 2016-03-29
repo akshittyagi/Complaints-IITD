@@ -1,14 +1,6 @@
 def index():
     database = db(db.Complaint_Level).select()
-    return locals()
-
-def input_Complaint_Level():
-    requested_level = request.args(0)
-    level = db.Complaint_Level(Level_Name==requested_level)
-    if not level:
-        session.flash='page not found'
-        redirect(URL('index'))
-    return level
+    return dict(success=True)
 
 def login():
     userid = request.vars.userid
