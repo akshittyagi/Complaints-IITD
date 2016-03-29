@@ -23,25 +23,28 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Button"
+            android:text="ADD USER"
             android:layout_weight="1"
-            android:id="@+id/button"
+            android:id="@+id/user_manage_add"
+            android:background="@color/colorPrimary"
             android:layout_gravity="center_horizontal" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Button"
+            android:text="REMOVE USER"
             android:layout_weight="1"
-            android:id="@+id/button2"
+            android:id="@+id/user_manage_remove"
+            android:background="@color/colorPrimaryLight"
             android:layout_gravity="center_horizontal" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Button"
+            android:text="QUERY USER"
             android:layout_weight="1"
-            android:id="@+id/button3"
+            android:id="@+id/user_manage_query_user"
+            android:background="@color/colorPrimary"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
 </RelativeLayout>

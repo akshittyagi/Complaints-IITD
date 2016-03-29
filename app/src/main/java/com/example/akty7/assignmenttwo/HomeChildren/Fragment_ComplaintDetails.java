@@ -37,7 +37,7 @@ public class Fragment_ComplaintDetails extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jp.upvote(compid);
+                jp.upvote(Fragment_ComplaintDetails.this,compid);
             }
         });
 
