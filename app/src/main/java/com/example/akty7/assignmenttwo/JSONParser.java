@@ -24,6 +24,7 @@ import com.example.akty7.assignmenttwo.HomeActivity.Activity_Home;
 import com.example.akty7.assignmenttwo.HomeActivity.Fragment_ComplaintsList;
 import com.example.akty7.assignmenttwo.HomeChildren.Activity_AddComp;
 import com.example.akty7.assignmenttwo.HomeChildren.Activity_Complaint;
+import com.example.akty7.assignmenttwo.HomeChildren.Fragment_Comments;
 import com.example.akty7.assignmenttwo.HomeChildren.Fragment_ComplaintDetails;
 
 import org.json.JSONArray;
@@ -647,10 +648,10 @@ public class JSONParser {
         q.add(jsonObjectRequest);
     }
 
-    public ArrayList<Comment> loadAllComments(String complaintid)
+    public void loadAllComments(final Fragment_Comments a,String complaintid)
     {
         this.compId=complaintid;
-        String allComments="/Complaint_Portal/APIs/get_comments.json?complaintID="+compId;
+        String allComments="/Complaint_Portal/APIs/get_comments.json?complaintid="+complaintid;
 
         final Context ct=ctx;
         final ArrayList<Comment> ret = new ArrayList<Comment>();
@@ -661,17 +662,19 @@ public class JSONParser {
 
                 try {
                     JSONArray comments = response.getJSONArray("comments");
-                    for(int i=0;i<comments.length();i++)
-                    {
+                    for(int i=0;i<comments.length();i++) {
                         Comment c = new Comment();
                         JSONObject comment = (JSONObject) comments.get(i);
-                        c.commentId = comment.getString("commentId");
-                        c.createdat = comment.getString("createdat");
-                        c.description = comment.getString("description");
-                        c.createdByUserId = comment.getString("createduserid");
+                        c.commentId = comment.getString("id");
+                        c.createdat = comment.getString("WrittenAt");
+                        c.description = comment.getString("body");
+                        c.createdByUserId = comment.getString("UserID");
                         ret.add(c);
 
                     }
+
+                    a.getCommentsCallBack(ret);
+
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Loading All Comments", Toast.LENGTH_LONG).show();
                 }
@@ -685,14 +688,13 @@ public class JSONParser {
         });
         q.add(jsonObjectRequest);
 
-        return ret;
     }
 
-    public boolean addComment(final String description,final String userid, final String createdat,final String complaintID)
+    public void addComment(final Fragment_Comments a,final String description,final String complaintID)
     {
         this.compId = complaintID;
         this.description = description;
-        String addComment="/Complaint_Portal/APIs/add_comment.json?complaintID="+compId+"&comment_body="+description;
+        String addComment="/Complaint_Portal/APIs/add_comment.json?complaintid="+complaintID+"&description="+description;
 
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
@@ -702,29 +704,12 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-                        String success = response.getString("successful");
-                        AuthChecker a = new AuthChecker();
-                        if(!success.equals("true"))
-                        {
-                            a.isSuccessful = false;
-                            Toast.makeText(ct, "Error Adding Comments", Toast.LENGTH_LONG).show();
-                            ret.add(a);
-                        }
-                        else
-                        {
-                            a.isSuccessful=true;
-                            String id = response.getString("id");
-                            Comment c = new Comment();
-                            c.createdByUserId = userid;
-                            c.description = description;
-                            c.createdat = createdat;
-                            c.commentId = id;
-                            ret.add(a);
-                        }
-
-                    }
+                    Boolean succ = response.getBoolean("success");
+                    a.getAddCommentCallBack(succ);
+                }
                  catch (JSONException e) {
                     Toast.makeText(ct, "Error Adding Comments", Toast.LENGTH_LONG).show();
+                     a.getAddCommentCallBack(false);
                 }
 
             }
@@ -732,17 +717,17 @@ public class JSONParser {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(ct,"Error Adding comments",Toast.LENGTH_LONG).show();
+                a.getAddCommentCallBack(false);
             }
         });
         q.add(jsonObjectRequest);
 
-        return ret.get(0).isSuccessful;
     }
 
-    public boolean upvote(String complaintId)
+    public void upvote(String complaintId)
     {
         this.compId = complaintId;
-        String upvote="/Complaint_Portal/APIs/upvote.json?complaintID="+compId;
+        String upvote="/Complaint_Portal/APIs/upvote.json?complaintid="+complaintId;
 
         final Context ct=ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
@@ -752,16 +737,10 @@ public class JSONParser {
             public void onResponse(JSONObject response){
 
                 try {
-                    AuthChecker a = new AuthChecker();
-                    if(response.getString("successful").equals("true"))
-                    {
-                        a.isSuccessful = true;
-                    }
-                    {
-                        a.isSuccessful = false;
-                    }
+                    Boolean succ = response.getBoolean("success");
 
-                    ret.add(a);
+
+
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Upvoting", Toast.LENGTH_LONG).show();
                 }
@@ -774,7 +753,6 @@ public class JSONParser {
             }
         });
         q.add(jsonObjectRequest);
-        return ret.get(0).isSuccessful;
     }
 
     public boolean downvote(String complaintId)
