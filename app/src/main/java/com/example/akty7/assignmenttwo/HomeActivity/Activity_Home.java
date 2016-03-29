@@ -19,9 +19,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.example.akty7.assignmenttwo.Activity_Login;
 import com.example.akty7.assignmenttwo.JSONParser;
@@ -149,24 +151,30 @@ public class Activity_Home extends AppCompatActivity implements NavigationView.O
         if (id == R.id.action_changepw) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Change Password");
+            LinearLayout layout = new LinearLayout(context);
+            layout.setOrientation(LinearLayout.VERTICAL);
+
             final EditText oldPass = new EditText(context);
             final EditText newPass = new EditText(context);
             final EditText newPassConfirm = new EditText(context);
             oldPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             newPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
             newPassConfirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            builder.setView(oldPass);
-            builder.setView(newPass);
-            builder.setView(newPassConfirm);
+            layout.addView(oldPass);
+            layout.addView(newPass);
+            layout.addView(newPassConfirm);
+            builder.setView(layout);
+
             // Set up the buttons
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (newPass.getText().equals(newPassConfirm.getText())) {
+                    if (newPass.getText().toString().equals(newPassConfirm.getText().toString())) {
                         jp.passwordReset(Activity_Home.this,newPass.getText().toString(), oldPass.getText().toString());
                         dialog.dismiss();
                     } else {
                         dialog.dismiss();
+                        Log.d(newPass.getText().toString(), newPassConfirm.getText().toString());
                         Snackbar.make(findViewById(R.id.drawer_layout_home), "Passwords do not match!", Snackbar.LENGTH_SHORT)
                                 .setAction("Action", null).show();
                     }

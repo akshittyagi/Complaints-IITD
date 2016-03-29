@@ -334,7 +334,7 @@ public class JSONParser {
     {
         this.oldpass=oldPass;
         this.newpass=newPass;
-        final String passReset="/Complaint_Portal/APIs/password_reset.json?old_pass="+oldpass+"&new_pass="+newpass;
+        final String passReset="/Complaint_Portal/APIs/password_reset.json?oldPass="+oldPass+"&newPass="+newPass;
 
         final Context ct = ctx;
         final ArrayList<AuthChecker> ret = new ArrayList<AuthChecker>();
