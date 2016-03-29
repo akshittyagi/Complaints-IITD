@@ -604,7 +604,7 @@ public class JSONParser {
         return ret;
     }
 
-    public void specificComplaint(final Fragment_ComplaintDetails a,String compId)
+    public void specificComplaint(final Fragment_ComplaintDetails a, final String compId)
     {
         this.compId=compId;
         String specificComplaint="/Complaint_Portal/APIs/specific_complaint.json?compId="+compId;
@@ -613,21 +613,20 @@ public class JSONParser {
         RequestQueue q = Volley.newRequestQueue(ctx);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+specificComplaint, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject response){
+            public void onResponse(JSONObject complaint){
 
                 try {
                         Complaint c = new Complaint();
-                        JSONObject complaint = response.getJSONObject("complaint");
-                        c.compId=complaint.getString("id");
-                        c.filedByUserId=complaint.getString("UserID");
+                        c.compId=compId;
+                        c.filedByUserId=complaint.getString("filedByUserID");
                         c.title=complaint.getString("title");
-                        c.description=complaint.getString("body");
-                        c.createdat=complaint.getString("CreatedAt");
-                        c.complaintstatus=complaint.getBoolean("ComplaintStatus");
-                        c.complaintcategory=complaint.getString("ComplaintCategoryID");
-                        c.complaintlevel=complaint.getString("ComplaintLevelID");
-                        c.upvotes=complaint.getString("Upvotes");
-                        c.downvotes=complaint.getString("Downvotes");
+                        c.description=complaint.getString("description");
+                        c.createdat=complaint.getString("createdat");
+                        c.complaintstatus=complaint.getBoolean("complaintstatus");
+                        c.complaintcategory=complaint.getString("complaintcategory");
+                        c.complaintlevel=complaint.getString("complaintlevel");
+                        c.upvotes=complaint.getString("upvotes");
+                        c.downvotes=complaint.getString("downvotes");
                         ret.add(c);
 
                         a.specificComplaintCallBack(true,c);
