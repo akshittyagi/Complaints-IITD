@@ -4,6 +4,7 @@ package com.example.akty7.assignmenttwo.HomeChildren;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,7 @@ public class Fragment_Comments extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private View rootView;
     JSONParser jp;
+    String compid;
 
     public Fragment_Comments() {
         // Required empty public constructor
@@ -41,6 +43,8 @@ public class Fragment_Comments extends Fragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_comments, container, false);
         jp = new JSONParser(getContext());
+
+        compid = this.getArguments().getString("complaintid");
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.comment_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +60,7 @@ public class Fragment_Comments extends Fragment {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        jp.addComment(Fragment_Comments.class,input.getText().toString(), compid);
 
                     }
                 });
@@ -76,10 +81,25 @@ public class Fragment_Comments extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(rootView.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        ArrayList<Comment> a = new ArrayList<>();
-        mAdapter = new CommentRecyclerViewAdapter(a);
-        mRecyclerView.setAdapter(mAdapter);
+        jp.loadAllComments(compid);
         return rootView;
+    }
+
+    public void getCommentsCallBack(ArrayList<Comment> arr){
+        mAdapter = new CommentRecyclerViewAdapter(arr);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public void getAddCommentCallBack(boolean success){
+        if(!success) {
+            Snackbar.make(rootView.findViewById(R.id.comment_recycler_view), "Sorry! Could not add Comment", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        }else{
+            Snackbar.make(rootView.findViewById(R.id.comment_recycler_view), "Done! Added Comment", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+            jp.loadAllComments(compid);
+        }
+
     }
 
 }

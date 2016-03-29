@@ -1,6 +1,7 @@
 package com.example.akty7.assignmenttwo.HomeChildren;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,6 +32,32 @@ public class Fragment_ComplaintDetails extends Fragment {
         jp = new JSONParser(getActivity().getApplicationContext());
         compid = this.getArguments().getString("complaintid");
         jp.specificComplaint(Fragment_ComplaintDetails.this,compid);
+
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.comp_upvote_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jp.upvote(compid);
+            }
+        });
+
+        FloatingActionButton fab1 = (FloatingActionButton) rootView.findViewById(R.id.comp_downvote_fab);
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jp.downvote(compid);
+            }
+        });
+
+        FloatingActionButton fab2 = (FloatingActionButton) rootView.findViewById(R.id.comp_resolve_fab);
+        if(!jp.canIResolve(compid)) fab2.setVisibility(View.GONE);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jp.setResolved(compid);
+            }
+        });
+
         return rootView;
     }
 
@@ -48,5 +75,10 @@ public class Fragment_ComplaintDetails extends Fragment {
             ((TextView) rootView.findViewById(R.id.comp_details_level)).setText(c.complaintlevel);
         }
     }
+
+    public void upvoteCallBack(){
+
+    }
+
 
 }

@@ -40,7 +40,7 @@ public class CommentRecyclerViewAdapter extends RecyclerView.Adapter<CommentRecy
 
         final Comment comm = mDataset.get(position);
 
-      //  holder.creator.setText(jp.getUser(comp.filedByUserId).name);
+        //  holder.creator.setText(jp.getUser(comp.filedByUserId).name);
         holder.creator.setText(comm.createdByUserId);
         holder.desc.setText(comm.description);
         holder.date.setText(comm.createdat);

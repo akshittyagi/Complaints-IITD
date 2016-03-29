@@ -27,7 +27,6 @@ public class ComplaintRecyclerViewAdapter extends RecyclerView.Adapter<Complaint
         mDataset = usercomps;
     }
 
-
     @Override
     public DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();

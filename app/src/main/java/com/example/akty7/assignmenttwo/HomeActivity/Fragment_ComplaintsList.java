@@ -38,6 +38,11 @@ public class Fragment_ComplaintsList extends Fragment {
 
         myac_jp = new JSONParser(getActivity().getApplicationContext());
 
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.myactivity_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(rootView.getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
         if(domain == "personal"){
             myac_jp.listOfPersonalComplaints(Fragment_ComplaintsList.this);
         }
@@ -48,10 +53,6 @@ public class Fragment_ComplaintsList extends Fragment {
             myac_jp.listOfInstituteComplaints(Fragment_ComplaintsList.this);
         }
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.myactivity_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(rootView.getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
         return rootView;
 
     }
