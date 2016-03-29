@@ -3,12 +3,12 @@ def password_reset():
         user = db.users(auth.user.id)
         old_pass = str(request.vars["oldPass"]).strip()
         new_pass = str(request.vars["newPass"]).strip()
-        user_pass = auth.user.password
+        user_pass = user.password
         if user_pass==old_pass :
-            auth.user.password = new_pass
+            user.password = new_pass
             return dict(success=True)
         else:
-            return dict(success=False)
+            return dict(success=False, user_pass=user_pass, old_pass=old_pass, new_pass=new_pass)
 
 def make_complaint():
     if auth.is_logged_in():
@@ -19,7 +19,7 @@ def make_complaint():
         categoryID = int(request.vars["complaintcategory"]).strip()
         db.Complaint.insert(UserID=auth.user.id, title=complaint_title, body=complaint_body, ComplaintCategoryID=categoryID, ComplaintLevelID=complaint_level)
         user_hostel = user.Hostel
-        #
+        #TODO: HANDLE NOTIFICATIONS
         return dict(success=True)
 
 def specific_complaint():
