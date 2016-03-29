@@ -1,5 +1,6 @@
 package com.example.akty7.assignmenttwo;
 
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -11,12 +12,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.akty7.assignmenttwo.AdminActivities.Activity_UserManagement;
+import com.example.akty7.assignmenttwo.AuthorityActivities.Activity_ComplaintsForMe;
 import com.example.akty7.assignmenttwo.HelperClass.Admin;
 import com.example.akty7.assignmenttwo.HelperClass.AuthChecker;
 import com.example.akty7.assignmenttwo.HelperClass.Comment;
 import com.example.akty7.assignmenttwo.HelperClass.Complaint;
 import com.example.akty7.assignmenttwo.HelperClass.Notif;
 import com.example.akty7.assignmenttwo.HelperClass.UserIn;
+import com.example.akty7.assignmenttwo.HomeActivity.Activity_Home;
+import com.example.akty7.assignmenttwo.HomeChildren.Activity_AddComp;
+import com.example.akty7.assignmenttwo.HomeChildren.Activity_Complaint;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -117,9 +123,8 @@ public class JSONParser {
 
     }
 
-    public void logout()
+    public void logoutFromHome(final Activity_Home a)
     {
-        final ArrayList<AuthChecker> ret=new ArrayList<AuthChecker>();
         final Context ct = ctx;
         RequestQueue q = Volley.newRequestQueue(ctx);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+logout, null, new Response.Listener<JSONObject>() {
@@ -128,18 +133,17 @@ public class JSONParser {
 
                 try {
 
-                    AuthChecker a=new AuthChecker();
                     String succ=response.getString("success");
                     if(succ.equals("true"))
                     {
-                        a.isSuccessful=true;
+                        a.logoutCallBack(true);
                     }
                     else
                     {
-                        a.isSuccessful=false;
+                        a.logoutCallBack(false);
                     }
 
-                    ret.add(a);
+
 
                 } catch (JSONException e) {
                     Toast.makeText(ct, "Error Signing out", Toast.LENGTH_LONG).show();
@@ -154,6 +158,177 @@ public class JSONParser {
         });
         q.add(jsonObjectRequest);
     }
+
+    public void logoutFromAddComp(final Activity_AddComp a)
+    {
+        final Context ct = ctx;
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+logout, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+
+                    String succ=response.getString("success");
+                    if(succ.equals("true"))
+                    {
+                        a.logoutCallBack(true);
+                    }
+                    else
+                    {
+                        a.logoutCallBack(false);
+                    }
+
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Signing out", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error Signing out",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+    }
+
+    public void logoutFromCompForMe(final Activity_ComplaintsForMe a)
+    {
+        final Context ct = ctx;
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+logout, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+
+                    String succ=response.getString("success");
+                    if(succ.equals("true"))
+                    {
+                        a.logoutCallBack(true);
+                    }
+                    else
+                    {
+                        a.logoutCallBack(false);
+                    }
+
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Signing out", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error Signing out",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+    }
+
+    public void logoutFromComplaint(final Activity_Complaint a)
+    {
+        final Context ct = ctx;
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+logout, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+
+                    String succ=response.getString("success");
+                    if(succ.equals("true"))
+                    {
+                        a.logoutCallBack(true);
+                    }
+                    else
+                    {
+                        a.logoutCallBack(false);
+                    }
+
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Signing out", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error Signing out",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+    }
+
+    public void logoutFromProfile(final Activity_Profile a)
+    {
+        final Context ct = ctx;
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+logout, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+
+                    String succ=response.getString("success");
+                    if(succ.equals("true"))
+                    {
+                        a.logoutCallBack(true);
+                    }
+                    else
+                    {
+                        a.logoutCallBack(false);
+                    }
+
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Signing out", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error Signing out",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+    }
+
+    public void logoutUserManagement(final Activity_UserManagement a)
+    {
+        final Context ct = ctx;
+        RequestQueue q = Volley.newRequestQueue(ctx);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,main+logout, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response){
+
+                try {
+
+                    String succ=response.getString("success");
+                    if(succ.equals("true"))
+                    {
+                        a.logoutCallBack(true);
+                    }
+                    else
+                    {
+                        a.logoutCallBack(false);
+                    }
+
+                } catch (JSONException e) {
+                    Toast.makeText(ct, "Error Signing out", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ct,"Error Signing out",Toast.LENGTH_LONG).show();
+            }
+        });
+        q.add(jsonObjectRequest);
+    }
+
 
     public boolean passwordReset(String newPass,String oldPass)
     {
